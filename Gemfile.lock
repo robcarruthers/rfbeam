@@ -3,9 +3,7 @@ PATH
   specs:
     rfbeam (0.1.0)
       activesupport (~> 6.1.0)
-      bindata (~> 2.4.10)
       rubyserial (~> 0.6.0)
-      terminal-table (~> 3.0.2)
       thor (~> 1.2.1)
 
 GEM
@@ -18,7 +16,6 @@ GEM
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
     ast (2.4.2)
-    bindata (2.4.14)
     concurrent-ruby (1.1.10)
     ffi (1.15.5)
     i18n (1.12.0)
@@ -47,8 +44,6 @@ GEM
     ruby-progressbar (1.11.0)
     rubyserial (0.6.0)
       ffi (~> 1.9, >= 1.9.3)
-    terminal-table (3.0.2)
-      unicode-display_width (>= 1.1.1, < 3)
     thor (1.2.1)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
