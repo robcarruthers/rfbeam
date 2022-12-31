@@ -1,4 +1,5 @@
-module Rfbeam::K_LD7
+module RfBeam::KLD7
+  require 'rubyserial'
   require 'timeout'
 
   class Error < StandardError
@@ -24,6 +25,7 @@ module Rfbeam::K_LD7
     return unless connected?
 
     @serial_port.write(string)
+    sleep 0.1
   end
 
   def read(bytes)
@@ -56,7 +58,7 @@ module Rfbeam::K_LD7
 
     write init_command.pack('a4LL')
     resp = read(9).unpack('a4LC')
-    return if resp[2] == 0
+    return if resp[2].zero?
 
     raise Error, 'Initialisation Error for K-LD7'
   end
