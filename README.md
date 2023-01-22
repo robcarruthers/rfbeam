@@ -16,7 +16,19 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+❯ bin/console
+irb(main):001:0> RfBeam.connected
+=> ["/dev/tty.usbserial-FTBX7TKD"]
+irb(main):002:0> r = RfBeam::K_ld7.new("/dev/tty.usbserial-FTBX7TKD", 115200)
+=> #<RfBeam::K_ld7:0x0000000146bb2ff0 @serial_port=#<Serial:0x0000000146bb2f28 @fd=9, @open=true, @config=#<RubySerial::Posix::Termios:0x0000000146bb2cf8>>>
+irb(main):003:0> r.detection?
+=> false
+irb(main):004:0> r.detection?
+=> true
+irb(main):005:0> r.tdat
+=> {:dist=>68, :speed=>196, :angle=>469, :mag=>6303}
+```
 
 ## Development
 

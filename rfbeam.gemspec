@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ['robc@hey.com']
 
   spec.summary = 'Ruby Serial interface and CLI for RFBeam doplar radar modules'
-  spec.description = 'Currently only works K-LD7 on Raspberry Pi (Ubuntu 22.04 LTS)'
+  spec.description = 'Currently only works K-LD7 on Raspberry Pi (MacOS & Ubuntu 22.04 LTS)'
   spec.homepage = 'https://gitlab.com/robcarruthers/rfbeam'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.7.6'

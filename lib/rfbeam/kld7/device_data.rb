@@ -13,7 +13,9 @@ module RfBeam
       5 => 'Sensor busy',
       6 => 'Timeout error',
     }.freeze
-    INIT_RESP_DELAY = 0.1
+
+    # The response delay was determined empirically and may need adjusting with baude rate
+    RESP_DELAY = 0.1
 
     # 'GNFD' command types
     FRAME_DATA_TYPES = { disabled: 0x00, radc: 0x01, rfft: 0x02, pdat: 0x04, tdat: 0x08, ddat: 0x10, done: 0x20 }.freeze

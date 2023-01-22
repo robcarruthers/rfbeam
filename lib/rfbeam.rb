@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rfbeam/kld7/commands'
+require 'rfbeam/kld7/detection'
 require 'rfbeam/kld7/device_data'
 require_relative 'rfbeam/version'
 
