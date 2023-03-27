@@ -1,3 +1,7 @@
+## [0.2.1] - 2023-3-28
+
+- Moved ddat to public method
+
 ## [0.2.0] - 2023-1-23
 
 - KLD7 only

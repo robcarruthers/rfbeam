@@ -14,14 +14,14 @@ module RfBeam
       return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] } unless resp[1].zero?
     end
 
-    private
-
     def ddat
       request_frame_data(:ddat)
 
       resp = read(14).unpack('a4LC6')
       return resp
     end
+
+    private
 
     def request_frame_data(type)
       command = ['GNFD', 4, FRAME_DATA_TYPES[type]]
