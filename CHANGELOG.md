@@ -1,3 +1,7 @@
+## [0.2.2] - 2023-3-28
+
+- Refinements to ddat
+
 ## [0.2.1] - 2023-3-28
 
 - Moved ddat to public method

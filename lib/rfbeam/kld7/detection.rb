@@ -2,7 +2,6 @@ module RfBeam
   module KLD7
     def detection?
       data = ddat
-      p data
       (data[2] == 1)
     end
 
