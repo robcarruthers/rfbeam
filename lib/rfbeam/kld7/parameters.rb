@@ -1,23 +1,68 @@
 module RfBeam
   module KLD7
+  
     def detection?
       data = ddat
       (data[2] == 1)
-    end
-
-    def grps
-      command = ['GRPS', 0]
-      write command.pack('a4L')
-      check_response
-      resp = read(50).unpack('a4LA19C8c2C4cCCCCSCC')
-      resp
     end
     
     def config
       puts formatted_grps(grps)
     end
 
+    # Get the radar parameter structure
+    def grps
+      command = ['GRPS', 0]
+      write command.pack('a4L')
+      check_response
+      read(50).unpack('a4LA19C8c2C4cCCCCSCC')
+    end
+    
+    # Base Frequency, 0 = low, 1 = middle (default), 2 = high
+    def set_base_frequency(frequency = 1)
+      set_parameter(:rbfr, frequency, :uint8)
+    end
+    alias_method :rbfr, :set_base_frequency
+    
+    # Maximum Speed, 0 = 12.5km/h, 1 = 25km/h (default), 2 = 50km/h, 3 = 100km/h
+    def set_max_speed(speed = 1)
+      set_parameter :rspi, speed, :uint8
+    end
+    alias_method :rspi, :set_max_speed
+    
+    # Maximum Range, 0 = 5m, 1 = 10m (default), 2 = 30m, 3 = 100m
+    def set_max_range(range = 1)
+      set_parameter :rrai, range, :unit8
+    end
+    alias_method :rrai, :set_max_range
+    
+    # Threshold Offset, 10 - 60db, (default = 30)
+    def set_threshold_offset(offset = 30)
+      range = 10..60
+      return false unless range.include?(offset)
+      
+      set_parameter :thof, range, :unit8
+    end
+    alias_method :thof, :set_threshold_offset
+
     private
+    
+    def set_parameter(header, value, return_type = :uint8)
+      return_type =
+        case return_type
+          when :uint8
+          'L'
+          when :int8
+          'c'
+          when :uint16
+          'S'
+          else
+          'L'
+        end
+      command = [header.upcase.to_s, 4, value]
+      write command.pack("a4L#{return_type}")
+      check_response
+    end
     
     def formatted_grps(data)
       output = "\n"
@@ -46,12 +91,6 @@ module RfBeam
       output << "Micro Detection Sensitivity: #{data[24]} (#{PARAMETER_STRUCTURE[:micro_detection_sensitivity]})"
       
       output
-    end
-
-    def request_parameter_data
-      command = ['GRPS', 0]
-      write command.pack('a4L')
-      check_response
     end
   end
 end

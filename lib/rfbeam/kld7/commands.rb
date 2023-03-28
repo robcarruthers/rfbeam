@@ -80,10 +80,10 @@ module RfBeam
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 
       response_key = resp[2]
-      return if response_key.zero? # Everything OK
+      return response_key.zero? # Everything OK
 
       error_string = RESP_CODES[response_key].nil? ? 'Response unknown' : RESP_CODES[response_key]
-      raise Error, "Initialisation Error: #{error_string}"
+      raise Error, "Radar response Error: #{error_string}"
     end
   end
 end
