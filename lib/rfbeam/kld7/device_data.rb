@@ -29,5 +29,31 @@ module RfBeam
       range: %w[Far Near],
       speed: %w[Low High],
     }
+    
+    # GRPS - Parameter structture, used to map return values to readable strings
+    PARAMETER_STRUCTURE = {
+      base_frequency: ['Low', 'Middle', 'High'],
+      max_speed: ['12.5km/h', '25km/h', '50km/h', '100km/h'],
+      max_range: %w[5m 10m 30m 100m],
+      threshold_offset: '10db - 60db',
+      tracking_filter_type: ['standard', 'Fast Detection', 'Long Visibility'],
+      vibration_suppression: '0-16, 0 = No Suppression, 16 = High Suppression',
+      min_detection_distance: '0 - 100% of range setting',      
+      max_detection_distance: '0 - 100% of range setting',
+      min_detection_angle: '-90° - 90°',
+      max_detection_angle: '-90° - 90°',
+      min_detection_speed: '0 - 100% of speed setting',
+      max_detection_speed: '0 - 100% of speed setting',
+      detection_direction: %w[receding approaching both],
+      range_threshold: '0 - 100% of range setting',
+      angle_threshold: '-90° - 90°',
+      speed_threshold: '0 - 100% of speed setting',
+      digital_output_1: %w[Direction Angle Range Speed Micro],
+      digital_output_2: %w[Direction Angle Range Speed Micro],
+      digital_output_3: %w[Direction Angle Range Speed Micro],
+      hold_time: '1 - 7200s',
+      micro_detection_trigger: %w[Off Retrigger],
+      micro_detection_sensitivty: '0 - 9, 0 = Min, 9 = Max'
+    }
   end
 end
