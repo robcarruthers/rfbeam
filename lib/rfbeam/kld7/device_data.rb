@@ -53,7 +53,7 @@ module RfBeam
       digital_output_3: %w[Direction Angle Range Speed Micro],
       hold_time: '1 - 7200s',
       micro_detection_trigger: %w[Off Retrigger],
-      micro_detection_sensitivty: '0 - 9, 0 = Min, 9 = Max'
+      micro_detection_sensitivity: '0 - 9, 0 = Min, 9 = Max'
     }
   end
 end

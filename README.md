@@ -19,14 +19,42 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ```ruby
 ❯ bin/console
 irb(main):001:0> RfBeam.connected
-=> ["/dev/tty.usbserial-FTBX7TKD"]
-irb(main):002:0> r = RfBeam::K_ld7.new("/dev/tty.usbserial-FTBX7TKD", 115200)
-=> #<RfBeam::K_ld7:0x0000000146bb2ff0 @serial_port=#<Serial:0x0000000146bb2f28 @fd=9, @open=true, @config=#<RubySerial::Posix::Termios:0x0000000146bb2cf8>>>
-irb(main):003:0> r.detection?
+=> ["/dev/ttyUSB0"]
+irb(main):002:0> r = RfBeam::K_ld7.new("/dev/ttyUSB0", 115200)
+=> #<RfBeam::K_ld7:0x000000559b9c8a38 @serial_port=#<Serial:0x000000559b9c8998 @fd=5, @open=true, @config=#<RubySerial::Posix::Termios:0x000000559b9c8790>>>
+irb(main):003:0> r.config
+
+Software Version: K-LD7_APP-RFB-0103
+Base Frequency: Middle
+Max Speed: 25km/h
+Max Range: 10m
+Threshold offset: 30db
+Tracking Filter Type: standard
+Vibration Suppression: 2 , (0-16, 0 = No Suppression, 16 = High Suppression)
+Minimum Detection Distance: 0 , (0 - 100% of range setting)
+Maximum Detection Distance: 50 , (0 - 100% of range setting)
+Minimum Detection Angle: -90° , (-90° - 90°)
+Maximum Detection Angle: 90° , (0 - 100% of range setting)
+Maximum Detection Speed: 0 , (0 - 100% of speed setting)
+Maximum Detection Speed: 100 , (0 - 100% of speed setting)
+Detection Direction: 2Range Threshold: 10%, (0 - 100% of range setting)
+Angle Threshold: 0°, (-90° - 90°)
+Speed Threshold: 50%, (0 - 100% of speed setting)
+Digital output 1: Direction
+Digital output 2: Angle
+Digital output 3: Range
+Hold time: 1sec
+Micro Detection Retrigger: Off
+Micro Detection Sensitivity: 4 (0 - 9, 0 = Min, 9 = Max)
+
+=> nil
+irb(main):004:0> r.grps
+=> ["RPST", 42, "K-LD7_APP-RFB-0103", 1, 1, 1, 30, 0, 2, 0, 50, -90, 90, 0, 100, 2, 10, 0, 50, 0, 1, 2, 1, 0, 4]
+irb(main):005:0> r.detection?
 => false
-irb(main):004:0> r.detection?
+irb(main):006:0> r.detection?
 => true
-irb(main):005:0> r.tdat
+irb(main):007:0> r.tdat
 => {:dist=>68, :speed=>196, :angle=>469, :mag=>6303}
 ```
 
