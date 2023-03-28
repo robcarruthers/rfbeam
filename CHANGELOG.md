@@ -1,3 +1,9 @@
+## [0.3.1] - 2023-3-28
+
+- Added setter for Max Distance
+- Added setter for Max Speed
+- Added setter for Threshold offset
+
 ## [0.2.2] - 2023-3-28
 
 - Refinements to ddat
