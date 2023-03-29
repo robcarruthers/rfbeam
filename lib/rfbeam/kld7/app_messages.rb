@@ -4,6 +4,14 @@ module RfBeam
       data = ddat
       (data[2] == 1)
     end
+    
+    def pdat
+      request_frame_data(:pdat)
+      sleep 0.1
+      
+      resp = read(102).unpack('a4LSssSSssS')
+      resp
+    end
 
     def tdat
       request_frame_data(:tdat)
