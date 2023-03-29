@@ -1,5 +1,9 @@
 ## [0.3.1] - 2023-3-28
 
+- Added setters for Parameter settings
+
+## [0.3.1] - 2023-3-28
+
 - Added setter for Max Distance
 - Added setter for Max Speed
 - Added setter for Threshold offset

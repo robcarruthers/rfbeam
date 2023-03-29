@@ -59,7 +59,7 @@ Returns the Parameter settings, values map to setting as detailed in the device 
 
 ### config
 
-Returns a formatted String of all parameter settings
+Returns a formatted String of all parameter settings. The only way to read parameter settings is with config
 
     radar.config
 
@@ -85,6 +85,198 @@ Returns a formatted String of all parameter settings
     Hold time: 1sec
     Micro Detection Retrigger: Off
     Micro Detection Sensitivity: 4 (0 - 9, 0 = Min, 9 = Max)
+
+## Parameter setters
+
+### Base Frequency
+
+0 = low, 1 = middle (default), 2 = high
+
+alias :rbfr
+
+```ruby
+set_base_frequency(1)
+```
+
+### Maximum Speed
+
+0 = 12.5km/h, 1 = 25km/h (default), 2 = 50km/h, 3 = 100km/h, alias :rspi
+
+```ruby
+set_max_speed(1)
+```
+
+### Maximum Range
+
+0 = 5m, 1 = 10m (default), 2 = 30m, 3 = 100m, alias :rrai
+
+```ruby
+set_max_range(1)
+```
+
+### Threshold Offset
+
+10 - 60db, (default = 30), alias :thof
+
+```ruby
+set_threshold_offset(30)
+```
+
+### Tracking filter type
+
+0 = Standard (Default), 1 = Fast Tracking, 2 = Long visibility, alias :trtf
+
+```ruby
+set_tracking_filter(0)
+```
+
+### Vibration suppression
+
+0 - 16, 0 = No Suppression, 16 = High Suppression, default = 2, alias :visu
+
+```ruby
+set_vibration_suppression(2)
+```
+
+### Minimum Detection distance
+
+0 - 100% of Range setting, default = 0, alias :mira
+
+```ruby
+set_min_detection_distance(0)
+```
+
+### Maximum Detection distance
+
+0 - 100% of Range setting, default = 50, alias :mara
+
+```ruby
+set_max_detection_distance(50)
+```
+
+### Minimum Detection Angle
+
+-90° - 90°, default = -90, alias :mian
+
+```ruby
+set_min_detection_angle(-90
+```
+
+### Maximum Detection Angle
+
+-90° - 90°, default = 90, alias :maan
+
+```ruby
+set_min_detection_angle(90)
+```
+
+### Minimum Detection Speed
+
+0 - 100% of Speed setting, default = 0, alias :misp
+
+```ruby
+set_min_detection_speed(0)
+```
+
+### Maximum Detection Speed
+
+0 - 100% of Speed setting, default = 100, alias :masp
+
+```ruby
+set_max_detection_speed(100)
+```
+
+### Detection Direction
+
+0 = Receding, 1 = Approaching, 2 = Both (default), alias :dedi
+
+```ruby
+ set_detection_direction(2)
+```
+
+### Range Threshold
+
+0 - 100% of Range setting, default = 10, alias :rath
+
+```ruby
+ set_range_threshold(10)
+```
+
+### Angle Threshold
+
+-90° to 90°, default = 0, alias :anth
+
+```ruby
+ set_range_threshold(0)
+```
+
+### Speed Threshold
+
+0 - 100% of speed setting, default = 50, alias :spth
+
+```ruby
+ set_angle_threshold(50)
+```
+
+### Digital output 1
+
+0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default = 0
+
+alias :dig1, :set_dio_1
+
+```ruby
+set_dio_1(0)
+```
+
+### Digital output 2
+
+0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default = 1
+
+alias :dig2, :set_dio_2
+
+```ruby
+set_dio_2(1)
+```
+
+### Digital output 3
+
+0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default = 2
+
+alias :dig3, :set_dio_3
+
+```ruby
+set_dio_3(2)
+```
+
+### Hold Time
+
+1 - 7200s, default = 1
+
+alias :hold
+
+```ruby
+set_hold_time(1)
+```
+
+### Micro Detection retrigger
+
+0 = Off (default), 1 = Retrigger
+
+alias: :mide
+
+```ruby
+set_micro_detection_retrigger(0)
+```
+
+### Micro Detection sensitivity
+
+0 - 9, 0 = Min, 9 = Max, default = 4
+
+alias: :mids
+
+```ruby
+set_micro_detection_sensitivty(4)
+```
 
 ## Development
 
