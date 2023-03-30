@@ -8,11 +8,11 @@ Gem::Specification.new do |spec|
   spec.authors = ['Rob Carruthers']
   spec.email = ['robc@hey.com']
 
-  spec.summary = 'Ruby Serial interface and CLI for RFBeam doplar radar modules'
-  spec.description = 'Currently only works K-LD7 on Raspberry Pi (MacOS & Ubuntu 22.04 LTS)'
+  spec.summary = 'Ruby API and CLI for RFBeam doplar radar modules'
+  spec.description = 'Currently only tested with K-LD7 on MacOS & Raspian (bullseye)'
   spec.homepage = 'https://gitlab.com/robcarruthers/rfbeam'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.7.6'
+  spec.required_ruby_version = '>= 3.2.1'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 

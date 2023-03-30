@@ -9,6 +9,15 @@ module RfBeam
     def config
       puts formatted_grps(grps)
     end
+    
+    def formatted_parameter(param)
+      return unless PARAMETERS.include? param
+      
+      param_data = PARAMETERS[param]
+      grps_data = grps
+      index = grps_data[param_data[:grps_index]]
+      param_data[:values][index]
+    end
 
     # Get the radar parameter structure
     def grps
@@ -19,10 +28,27 @@ module RfBeam
     end
     
     # Base Frequency, 0 = low, 1 = middle (default), 2 = high
-    def set_base_frequency(frequency = 1)
-      set_parameter(:rbfr, frequency, :uint8)
+    def base_frequency
+      data = grps
+      data[3]
     end
-    alias_method :rbfr, :set_base_frequency
+    alias_method :rbfr, :base_frequency
+    
+    
+    def set_base_frequency(frequency = 1)
+      value = case frequency
+        when 0, :low, 'low'
+          0
+        when 1, :middle, 'middle'
+          1
+        when 2, :high, 'high'
+          2
+        else
+          raise ArgumentError, "Invalid arg: '#{frequency}'"
+        end
+      set_parameter(:rbfr, value, :uint8)
+    end
+    alias_method :set_rbfr, :set_base_frequency
     
     # Maximum Speed, 0 = 12.5km/h, 1 = 25km/h (default), 2 = 50km/h, 3 = 100km/h
     def set_max_speed(speed = 1)
