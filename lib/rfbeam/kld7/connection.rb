@@ -3,6 +3,8 @@ module RfBeam
     require 'rubyserial'
     require 'timeout'
 
+
+    
     class Error < StandardError
     end
 

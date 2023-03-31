@@ -1,4 +1,8 @@
-## [0.3.1] - 2023-3-28
+## [0.3.4] - 2023-3-28
+
+ - Added a formatted option to pdat
+
+## [0.3.2] - 2023-3-28
 
 - Added setters for Parameter settings
 

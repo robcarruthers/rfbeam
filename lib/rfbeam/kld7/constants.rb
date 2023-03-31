@@ -28,7 +28,7 @@ module RfBeam
       direction: %w[Receding Approaching],
       range: %w[Far Near],
       speed: %w[Low High],
-    }
+  }.freeze
     
     # GRPS - Parameter structure, used to map return values to readable strings
     PARAMETER_STRUCTURE = {
@@ -54,32 +54,32 @@ module RfBeam
       hold_time: '1 - 7200s',
       micro_detection_trigger: %w[Off Retrigger],
       micro_detection_sensitivity: '0 - 9, 0 = Min, 9 = Max'
-    }
+  }.freeze
     
-    PARAMETERS = {
-      sw_version: { grps_index: 2, default: 'K-LD7_APP-RFB-XXXX' },
-      base_frequency: { grps_index: 3, description: '0 = Low, 1 = Middle, 2 = High', default: '1 - Middle', values: ['Low', 'Middle', 'High'] },
-      max_speed: { grps_index: 4, description: '0 = 12km/h, 1 = 25km/h, 2 = 50km/h, 3 = 100km/h, default: 1', values: ['12.5km/h', '25km/h', '50km/h', '100km/h'] },
-      max_range: { grps_index: 5, description: '0 = 5m, 1 = 10m, 2 = 30m, 3 = 100m, default: 1', values: %w[5m 10m 30m 100m] },
-      threshold_offset: { grps_index: 6, description: '10db - 60db, default: 30', values: '10db - 60db' },
-      tracking_filter_type: { grps_index: 7, description: '0 = Standard, 2 = Fast Detection, 3 = Long Visibility, default: 0', values: ['standard', 'Fast Detection', 'Long Visibility'] },
-      vibration_suppression: { grps_index: 8, description: '0-16, 0 = No Suppression, 16 = High Suppression, default: 2' },
-      min_detection_distance: { grps_index: 3, description: '0 - 100% of range setting, default: 0' },
-      max_detection_distance: { grps_index: 10, description: '0 - 100% of range setting, default: 50' },
-      min_detection_angle: { grps_index: 11, description: '-90° - 90°, default: -90' },
-      max_detection_angle: { grps_index: 12, description: '-90° - 90°, default: 90' },
-      min_detection_speed: { grps_index: 13, description: '0 - 100% of speed setting, default: 0' },
-      max_detection_speed: { grps_index: 14, description: '0 - 100% of speed setting, default: 100' },
-      detection_direction: { grps_index: 15, description: '0 = Receding, 1 = Approaching, 2 = Both, default: 2', values: %w[receding approaching both] },
-      range_threshold: { grps_index: 16, description: '0 - 100% of range setting, default: 10', values: '0 - 100% of range setting' },
-      angle_threshold: { grps_index: 17, description: '-90° - 90°, default: 0' },
-      speed_threshold: { grps_index: 18, description: '0 - 100% of speed setting, default: 50' },
-      digital_output_1: { grps_index: 19, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 0', values: %w[Direction Angle Range Speed Micro] },
-      digital_output_2: { grps_index: 20, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 1', values: %w[Direction Angle Range Speed Micro] },
-      digital_output_3: { grps_index: 21, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 2', values: %w[Direction Angle Range Speed Micro] },
-      hold_time: { grps_index: 22, description: '1 - 7200s, default: 1', values: '1 - 7200s' },
-      micro_detection_trigger: { grps_index: 23, description: '0 = Off, 1 = Retrigger, default: 0' },
-      micro_detection_sensitivity: { grps_index: 24, description: '0 - 9, 0 = Min, 9 = Max, default: 4' }'
-    }
+    # PARAMETERS = {
+    #   sw_version: { grps_index: 2, default: 'K-LD7_APP-RFB-XXXX' },
+    #   base_frequency: { grps_index: 3, description: '0 = Low, 1 = Middle, 2 = High', default: '1 - Middle', values: ['Low', 'Middle', 'High'] },
+    #   max_speed: { grps_index: 4, description: '0 = 12km/h, 1 = 25km/h, 2 = 50km/h, 3 = 100km/h, default: 1', values: ['12.5km/h', '25km/h', '50km/h', '100km/h'] },
+    #   max_range: { grps_index: 5, description: '0 = 5m, 1 = 10m, 2 = 30m, 3 = 100m, default: 1', values: %w[5m 10m 30m 100m] },
+    #   threshold_offset: { grps_index: 6, description: '10db - 60db, default: 30', values: '10db - 60db' },
+    #   tracking_filter_type: { grps_index: 7, description: '0 = Standard, 2 = Fast Detection, 3 = Long Visibility, default: 0', values: ['standard', 'Fast Detection', 'Long Visibility'] },
+    #   vibration_suppression: { grps_index: 8, description: '0-16, 0 = No Suppression, 16 = High Suppression, default: 2' },
+    #   min_detection_distance: { grps_index: 3, description: '0 - 100% of range setting, default: 0' },
+    #   max_detection_distance: { grps_index: 10, description: '0 - 100% of range setting, default: 50' },
+    #   min_detection_angle: { grps_index: 11, description: '-90° - 90°, default: -90' },
+    #   max_detection_angle: { grps_index: 12, description: '-90° - 90°, default: 90' },
+    #   min_detection_speed: { grps_index: 13, description: '0 - 100% of speed setting, default: 0' },
+    #   max_detection_speed: { grps_index: 14, description: '0 - 100% of speed setting, default: 100' },
+    #   detection_direction: { grps_index: 15, description: '0 = Receding, 1 = Approaching, 2 = Both, default: 2', values: %w[receding approaching both] },
+    #   range_threshold: { grps_index: 16, description: '0 - 100% of range setting, default: 10', values: '0 - 100% of range setting' },
+    #   angle_threshold: { grps_index: 17, description: '-90° - 90°, default: 0' },
+    #   speed_threshold: { grps_index: 18, description: '0 - 100% of speed setting, default: 50' },
+    #   digital_output_1: { grps_index: 19, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 0', values: %w[Direction Angle Range Speed Micro] },
+    #   digital_output_2: { grps_index: 20, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 1', values: %w[Direction Angle Range Speed Micro] },
+    #   digital_output_3: { grps_index: 21, description: '0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default: 2', values: %w[Direction Angle Range Speed Micro] },
+    #   hold_time: { grps_index: 22, description: '1 - 7200s, default: 1', values: '1 - 7200s' },
+    #   micro_detection_trigger: { grps_index: 23, description: '0 = Off, 1 = Retrigger, default: 0' },
+    #   micro_detection_sensitivity: { grps_index: 24, description: '0 - 9, 0 = Min, 9 = Max, default: 4' }'
+    # }
   end
 end
