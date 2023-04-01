@@ -2,6 +2,13 @@ module RfBeam
   module KLD7
 
     # -----------------
+    # Software Version, 'K-LD7_APP-RFB-XXXX'
+    # -----------------
+    def sw_version
+      query_parameter RADAR_PARAMETERS[:sw_version].grps_index
+    end
+
+    # -----------------
     # Base Frequency, 0 = low, 1 = middle (default), 2 = high
     # -----------------
     def base_frequency
@@ -52,6 +59,7 @@ module RfBeam
     
     def max_range=(range = 1)
       raise ArgumentError, "Invalid arg: '#{range}'" unless (0..3).include?(range)
+      raise ArgumentError, "Expected an Integer" unless range.is_a?(Integer)
       
       set_parameter :rrai, range, :uint32
     end
@@ -271,7 +279,7 @@ module RfBeam
     # Digital output 1, 0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default = 0
     # -----------------
     def digital_output1
-      query_parameter RADAR_PARAMETERS[:digital_output1]grps_index
+      query_parameter RADAR_PARAMETERS[:digital_output1].grps_index
     end
     
     def digital_output1=(value = 0)      
@@ -287,7 +295,7 @@ module RfBeam
     # Digital output 2, 0 = Direction, 1 = Angle, 2 = Range, 3 = Speed, 4 = Micro Detection, default = 1
     # -----------------
     def digital_output2
-      query_parameter RADAR_PARAMETERS[:digital_output2]grps_index
+      query_parameter RADAR_PARAMETERS[:digital_output2].grps_index
     end
     
     def digital_output2=(value = 1)
@@ -296,7 +304,7 @@ module RfBeam
       
       set_parameter :dig2, value, :uint32
     end
-    alias dig2= set_digital_output2=
+    alias dig2= digital_output2=
     alias set_digital_output2 digital_output2=
     
     # -----------------
@@ -360,8 +368,8 @@ module RfBeam
       
       set_parameter :mids, value, :uint32
     end
-    alias mids= micro_detection_sensitivty=
-    alias set_micro_detection_sensitivity micro_detection_sensitivty=
+    alias mids= micro_detection_sensitivity=
+    alias set_micro_detection_sensitivity micro_detection_sensitivity=
 
     private
 
