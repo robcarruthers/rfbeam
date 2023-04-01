@@ -2,10 +2,16 @@ inherit_from:
   - node_modules/@prettier/plugin-ruby/rubocop.yml
 
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.2
 
 Layout/LineLength:
   Max: 120
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
 
 Documentation:
   Enabled: false

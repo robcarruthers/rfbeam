@@ -2,8 +2,6 @@ module RfBeam
   module KLD7
     require 'rubyserial'
     require 'timeout'
-
-
     
     class Error < StandardError
     end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'rfbeam/kld7/app_commands'
-require 'rfbeam/kld7/app_messages'
-require 'rfbeam/kld7/connection'
+require 'rfbeam/kld7/radar_parameters'
+require 'rfbeam/kld7/radar_messages'
+require 'rfbeam/kld7/serial_connection'
 require 'rfbeam/kld7/constants'
 require_relative 'rfbeam/version'
 

@@ -1,7 +1,11 @@
 # Rfbeam
 
-RfBeam is a simple, high-level interface to the RFBeam radar modules.
-The user can read and set the radar parameters and fetch raw or processed data frames from the sensor.
+![Gem](https://img.shields.io/gem/v/rfbeam?color=green&label=version)
+![Ruby](https://img.shields.io/static/v1?message=Ruby&color=red&logo=Ruby&logoColor=FFFFFF&label=v3.2.1)
+![Ruby](https://img.shields.io/gitlab/license/robcarruthers/rfbeam?color=orange)
+
+RfBeam is a simple, high-level interface for the RFBeam radar modules.
+The user can query process and raw detection data and set the radar parameters for the sensor.
 
 At this stage it only works on Linux and Mac with the K-LD7 module.
 
@@ -63,28 +67,29 @@ Returns a formatted String of all parameter settings. The only way to read param
 
     radar.config
 
-    Software Version: K-LD7_APP-RFB-0103
-    Base Frequency: Middle
-    Max Speed: 25km/h
-    Max Range: 10m
-    Threshold offset: 30db
-    Tracking Filter Type: standard
-    Vibration Suppression: 2 , (0-16, 0 = No Suppression, 16 = High Suppression)
-    Minimum Detection Distance: 0 , (0 - 100% of range setting)
-    Maximum Detection Distance: 50 , (0 - 100% of range setting)
-    Minimum Detection Angle: -90° , (-90° - 90°)
-    Maximum Detection Angle: 90° , (0 - 100% of range setting)
-    Maximum Detection Speed: 0 , (0 - 100% of speed setting)
-    Maximum Detection Speed: 100 , (0 - 100% of speed setting)
-    Detection Direction: 2Range Threshold: 10%, (0 - 100% of range setting)
-    Angle Threshold: 0°, (-90° - 90°)
-    Speed Threshold: 50%, (0 - 100% of speed setting)
-    Digital output 1: Direction
-    Digital output 2: Angle
-    Digital output 3: Range
-    Hold time: 1sec
-    Micro Detection Retrigger: Off
-    Micro Detection Sensitivity: 4 (0 - 9, 0 = Min, 9 = Max)
+    Software Version: K-LD7_APP-RFB-0103          
+    Base Frequency: Low                           
+    Maximum Speed: 100km/h                        
+    Maximum Range: 100m                           
+    Threshold Offset: 30db                        
+    Tracking Filter Type: Long Visibility         
+    Vibration Suppression: 16
+    Minimum Detection Distance: 0%
+    Maximum Detection Distance: 100%
+    Minimum Detection Angle: -10°
+    Maximum Detection Angle: 90°
+    Minimum Detection Speed: 0%
+    Maximum Detection Speed: 100%
+    Detection Direction: Both
+    Range Threshold: 10%
+    Angle Threshold: 0°
+    Speed Threshold: 50%
+    Digital Output 1: Direction
+    Digital Output 2: Angle
+    Digital Output 3: Range
+    Hold Time: 1s
+    Micro Detection Trigger: Off
+    Micro Detection Sensativity: 4
 
 ## Parameter setters
 
