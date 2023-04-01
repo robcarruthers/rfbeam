@@ -1,6 +1,11 @@
+## [0.3.5] - 2023-4-1
+
+- Updated Radar parameter accessors
+- Added parameter setter arg validation and errors
+
 ## [0.3.4] - 2023-3-28
 
- - Added a formatted option to pdat
+- Added a formatted option to pdat
 
 ## [0.3.2] - 2023-3-28
 
