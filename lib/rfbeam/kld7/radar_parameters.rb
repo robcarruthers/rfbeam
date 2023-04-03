@@ -76,7 +76,7 @@ module RfBeam
     
     def threshold_offset=(offset = 30)
       raise ArgumentError, "Invalid arg: '#{offset}'" unless (10..60).include?(offset)
-      raise ArgumentError, "Expected an Integer" unless range.is_a?(Integer)
+      raise ArgumentError, "Expected an Integer" unless offset.is_a?(Integer)
       
       set_parameter :thof, offset, :uint32
     end

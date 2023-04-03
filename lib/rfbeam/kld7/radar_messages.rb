@@ -1,8 +1,18 @@
+require 'csv'
+
 module RfBeam
   module KLD7
     def detection?
       data = ddat
       (data[2] == 1)
+    end
+
+    def rfft
+      request_frame_data(:rfft)
+
+      resp = read(1024).unpack('a4LS256S256')
+      resp.shift 2
+      resp
     end
     
     def pdat(formatted: false)
@@ -34,19 +44,6 @@ module RfBeam
       read(14).unpack('a4LC6')
     end
     
-    def config
-      puts formatted_grps(grps)
-    end
-    
-    def formatted_parameter(param)
-      return unless PARAMETERS.include? param
-      
-      param_data = PARAMETERS[param]
-      grps_data = grps
-      index = grps_data[param_data[:grps_index]]
-      param_data[:values][index]
-    end
-
     # Get the radar parameter structure
     def grps
       command = ['GRPS', 0]
@@ -54,7 +51,25 @@ module RfBeam
       check_response
       read(50).unpack('a4LA19C8c2C4cCCCCSCC')
     end
+
+    def config
+      data = grps
+      output = "\n"
+      RADAR_PARAMETERS.keys.each do |key|
+        output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index])
+      end
+      output
+    end
     
+    def formatted_parameter(param, value = nil)
+      param = RADAR_PARAMETERS[param]
+      if value.nil?
+        data = grps
+        value = data[param.grps_index]
+      end
+      param_str_value = param.values.empty? ? value.to_s : param.values[value]
+      "#{param.name}: #{param_str_value}#{param.units}\n"
+    end
 
     private
 
@@ -66,16 +81,6 @@ module RfBeam
       command = ['GNFD', 4, FRAME_DATA_TYPES[type]]
       write command.pack('a4LL')
       check_response
-    end
-
-    def formatted_grps(data)
-      output = "\n"
-      RADAR_PARAMETERS.each do |param|
-        param = param[1]
-        value = param.values.empty? ? data[param.grps_index] : param.values[data[param.grps_index].to_i]
-        output << "#{param.name}: #{value}#{param.units}\n"
-      end
-      output
     end
   end
 end

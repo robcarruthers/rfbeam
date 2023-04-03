@@ -17,6 +17,7 @@ GEM
       zeitwerk (~> 2.3)
     ast (2.4.2)
     concurrent-ruby (1.1.10)
+    enumerable-statistics (2.0.7)
     ffi (1.15.5)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -64,6 +65,8 @@ GEM
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
+    unicode_plot (0.0.5)
+      enumerable-statistics (>= 2.0.1)
     unicode_utils (1.4.0)
     zeitwerk (2.6.6)
 
@@ -78,6 +81,7 @@ DEPENDENCIES
   rubocop (~> 1.21)
   tty-spinner (~> 0.9.3)
   tty-table (~> 0.12.0)
+  unicode_plot (~> 0.0.5)
 
 BUNDLED WITH
    2.4.10

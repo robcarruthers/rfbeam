@@ -6,6 +6,8 @@ require 'rfbeam/kld7/serial_connection'
 require 'rfbeam/kld7/constants'
 require 'rfbeam/version'
 require 'rfbeam/cli'
+require 'rfbeam/streamer'
+
 
 module RfBeam
   class Error < StandardError
