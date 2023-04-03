@@ -84,7 +84,7 @@ module RfBeam
       devices = RfBeam.connected
       return puts 'No Radar modules found.' unless devices.count.positive?
 
-      radar = RfBeam::K_ld7.new(devices[index.to_i], 921_600)
+      radar = RfBeam::K_ld7.new(devices[index.to_i])
       if options[:stream]
         streamer = RadarCLIStreamer.new(radar)
         streamer.rfft
