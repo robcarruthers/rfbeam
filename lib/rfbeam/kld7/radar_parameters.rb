@@ -91,13 +91,14 @@ module RfBeam
       query_parameter RADAR_PARAMETERS[:tracking_filter].grps_index
     end
     
-    def set_tracking_filter(type = 0)
+    def tracking_filter=(type = 0)
       raise ArgumentError, "Invalid arg: '#{type}'" unless (0..2).include?(type)
       raise ArgumentError, "Expected an Integer" unless type.is_a?(Integer)
       
       set_parameter :trft, type, :uint32
     end
-    alias trtf set_tracking_filter
+    alias trtf= tracking_filter=
+    alias set_tracking_filter tracking_filter=
     
     # -----------------
     # Vibration suppression, 0 - 16, 0 = No Suppression, 16 = High Suppression, default = 2

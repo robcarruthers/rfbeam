@@ -9,97 +9,86 @@ require 'unicode_plot'
 
 module RfBeam
   class CLI < Thor
-    desc 'list', 'List available radar modules'
+    attr_accessor :radar, :logger
 
+    desc 'list', 'List available radar modules'
     def list
       devices = RfBeam.connected
-      return puts 'No Radar modules found.' unless devices.count.positive?
+      @logger.error 'No Radar modules found.' unless devices.count.positive?
 
       table = TTY::Table.new( header: ['id', 'Path', 'Version'])
 
       devices.each.with_index do |path, index|
-        radar = RfBeam::K_ld7.new(path, 115200)
-        table << ["R#{index}", path, radar.sw_version]
+        table << ["R#{index}", path, @radar.sw_version]
       end
       puts table.render(:ascii)
     end
 
     desc 'config <radar_id>', 'Shows the parameter setting for the Radar module'
     def config(radar_id)
-      devices = RfBeam.connected
-      return puts 'No Radar modules found.' unless devices.count.positive?
-
-      RfBeam::K_ld7.new(devices[radar_id.to_i], 115200) do |radar|
-        puts radar.config
-      end
+      init_radar(radar_id)
+      puts @radar.config
     end
 
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
-    def set_param(index, param, value)
-      raise ArgumentError, "Invalid arg: '#{param}'" unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
-      devices = RfBeam.connected
-      return puts 'No Radar modules found.' unless devices.count.positive?
+    def set_param(radar_id, param, value)
+      return logger.error("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
 
-      RfBeam::K_ld7.new(devices[index.to_i], 115200) do |radar|
-        radar.send("#{param}=", value.to_i)
-        TTY::Logger.new.success "Set #{radar.formatted_parameter(param.to_sym)}"
-      end
+      init_radar radar_id
+      @radar.send("#{param}=", value.to_i)
+      logger.success "Set #{@radar.formatted_parameter(param.to_sym)}"
     end
 
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
-    def ddat(index)
+    def ddat(radar_id)
+      init_radar radar_id
       spinner = TTY::Spinner.new("[:spinner] :title ", format: :bouncing_ball)
-      devices = RfBeam.connected
 
-      RfBeam::K_ld7.new(devices[index.to_i], 115200) do |radar|
       Thread.new { monitor_keypress }
         loop do
           break if @stop_streaming
           spinner.spin
-          data = radar.ddat
+          data = @radar.ddat
           spinner.update title: "Searching... ddat = #{data}"
           if data[2] == 1
-            spinner.success radar.tdat
+            spinner.success @radar.tdat
           end
         end
-      end
 
       spinner.stop
       puts "\nTask Quit."
     end
 
     desc 'pdat <radar_id>', 'Display Tracked Targets'
-    def pdat(index)
-      devices = RfBeam.connected
-
-      RfBeam::K_ld7.new(devices[index.to_i], 115200) do |radar|
-        puts radar.pdat
-      end
+    def pdat(radar_id)
+      init_radar radar_id
+      puts @radar.pdat
     end
 
     desc "rfft <radar_id>", "Display the dopplar radar data as a plot"
     option :stream, type: :boolean, aliases: '-s', desc: "Stream the data from the device"
     option :period, type: :numeric, aliases: '-p', default: 0.5, desc: "Update period (in seconds) for the streaming data"
-    def rfft(index)
-      devices = RfBeam.connected
-      return puts 'No Radar modules found.' unless devices.count.positive?
+    def rfft(radar_id)
+      init_radar(radar_id)
 
-      radar = RfBeam::K_ld7.new(devices[index.to_i])
       if options[:stream]
-        streamer = RadarCLIStreamer.new(radar)
+        streamer = RadarCLIStreamer.new(@radar)
         streamer.rfft
       else
-        plot = rfft_plot(radar)
+        plot = rfft_plot(@radar)
         puts plot.render
       end
     end
 
-    desc 'Test', 'Testing...'
-    def test
-      RfBeam::RadarCLIStreamer.new.rfft
-    end
-
     private
+
+    def init_radar(id)
+      devices = RfBeam.connected
+      @logger = TTY::Logger.new
+      return @logger.error 'No Radar modules found.' unless devices.count.positive?
+
+      @radar = RfBeam::K_ld7.new(devices[id.to_i])
+    end
 
     def plot_data(data)
       { x: Array(-128...128), series1: data.shift(256).map { |value| value / 100 }, series2: data.shift(256).map { |value| value.to_i / 100 } }

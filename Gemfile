@@ -18,3 +18,5 @@ gem "tty-spinner", "~> 0.9.3"
 gem "unicode_plot", "~> 0.0.5"
 
 gem "tty-logger", "~> 0.6.0"
+
+gem "tty-screen", "~> 0.8.1"

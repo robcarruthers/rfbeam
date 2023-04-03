@@ -2,6 +2,7 @@
 require 'unicode_plot'
 require 'io/console'
 require "stringio"
+require 'tty-screen'
 
 module RfBeam
   class RadarCLIStreamer
@@ -53,7 +54,7 @@ module RfBeam
     end
 
     def rfft_plot(radar)
-      xlim = [-256, 256]
+      width = TTY::Screen.width * 0.65
       data = plot_data(radar.rfft)
       plot = UnicodePlot.lineplot(
         data[:x],
@@ -61,7 +62,7 @@ module RfBeam
         name: 'IF1/2 Averaged',
         title: 'Raw FFT',
         height: 25,
-        width: 120,
+        width: width,
         xlabel: "Speed (km/h)",
         ylabel: 'Signal (db)', xlim: [-128, 128],
         ylim: [0, 100])
