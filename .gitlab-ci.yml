@@ -4,6 +4,3 @@ default:
   before_script:
     - gem install bundler -v 2.3.26
     - bundle install
-# example_job:
-#   script:
-#     - bundle exec rake
