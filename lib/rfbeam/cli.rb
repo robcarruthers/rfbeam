@@ -1,6 +1,8 @@
+# rubocop:disable all
 require 'thor'
 require 'rfbeam'
 require 'tty-table'
+require 'tty-logger'
 require 'tty-spinner'
 require 'io/console'
 require 'unicode_plot'
@@ -34,11 +36,13 @@ module RfBeam
 
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
     def set_param(index, param, value)
+      raise ArgumentError, "Invalid arg: '#{param}'" unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
       devices = RfBeam.connected
       return puts 'No Radar modules found.' unless devices.count.positive?
 
       RfBeam::K_ld7.new(devices[index.to_i], 115200) do |radar|
-        puts radar.send("#{param}=", value.to_i)
+        radar.send("#{param}=", value.to_i)
+        TTY::Logger.new.success "Set #{radar.formatted_parameter(param.to_sym)}"
       end
     end
 
@@ -80,15 +84,19 @@ module RfBeam
       devices = RfBeam.connected
       return puts 'No Radar modules found.' unless devices.count.positive?
 
-      radar = RfBeam::K_ld7.new(devices[index.to_i], 115200)
-      plot = rfft_plot(radar)
-      puts plot.render
-      # if options[:stream]
-      #   streamer = RadarDataStreamer.new(options[:period])
-      #   streamer.start
-      # else
-      #   display_plot(plot_data(data))
-      # end
+      radar = RfBeam::K_ld7.new(devices[index.to_i], 921_600)
+      if options[:stream]
+        streamer = RadarCLIStreamer.new(radar)
+        streamer.rfft
+      else
+        plot = rfft_plot(radar)
+        puts plot.render
+      end
+    end
+
+    desc 'Test', 'Testing...'
+    def test
+      RfBeam::RadarCLIStreamer.new.rfft
     end
 
     private
@@ -115,11 +123,11 @@ module RfBeam
       plot = UnicodePlot.lineplot(
         data[:x],
         data[:series1],
+        name: 'IF1/2 Averaged',
         title: 'Raw FFT',
         height: 25,
         width: 120,
         xlabel: "Speed (km/h), #{speed_label}",
-        labels: ['test', 'asdf'],
         ylabel: 'Signal (db)', xlim: [-128, 128],
         ylim: [0, 100])
       UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: "Threshold")

@@ -10,7 +10,7 @@ module RfBeam
     def rfft
       request_frame_data(:rfft)
 
-      resp = read(1024).unpack('a4LS256S256')
+      resp = read(1032).unpack('a4LS256S256')
       resp.shift 2
       resp
     end

@@ -55,6 +55,8 @@ GEM
     thor (1.2.1)
     tty-color (0.6.0)
     tty-cursor (0.7.1)
+    tty-logger (0.6.0)
+      pastel (~> 0.8)
     tty-screen (0.8.1)
     tty-spinner (0.9.3)
       tty-cursor (~> 0.7)
@@ -79,6 +81,7 @@ DEPENDENCIES
   rake (~> 13.0)
   rfbeam!
   rubocop (~> 1.21)
+  tty-logger (~> 0.6.0)
   tty-spinner (~> 0.9.3)
   tty-table (~> 0.12.0)
   unicode_plot (~> 0.0.5)

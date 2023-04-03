@@ -41,7 +41,7 @@ module RfBeam
       base_frequency: Param.new( name: 'Base Frequency', grps_index: 3, description: '0 = Low, 1 = Middle, 2 = High', default: 1, values: ['Low', 'Middle', 'High'] ),
       max_speed: Param.new( name: 'Maximum Speed', grps_index: 4, description: '0 = 12km/h, 1 = 25km/h, 2 = 50km/h, 3 = 100km/h', default: 1, units: 'km/h', values: ['12.5', '25', '50', '100'] ),
       max_range: Param.new( name: 'Maximum Range', grps_index: 5, description: '0 = 5m, 1 = 10m, 2 = 30m, 3 = 100m', default: 1, values: %w[5m 10m 30m 100m] ),
-      threshhold_offset: Param.new( name: 'Threshold Offset', grps_index: 6, description: '10db - 60db', default: 30, units: 'db' ),
+      threshold_offset: Param.new( name: 'Threshold Offset', grps_index: 6, description: '10db - 60db', default: 30, units: 'db' ),
       tracking_filter: Param.new( name: 'Tracking Filter Type', grps_index: 7, description: '0 = Standard, 2 = Fast Detection, 3 = Long Visibility', default: 0, values: ['standard', 'Fast Detection', 'Long Visibility'] ),
       vibration_suppression: Param.new( name: 'Vibration Suppression', grps_index: 8, description: '0-16, 0 = No Suppression, 16 = High Suppression', default: 2 ),
       min_detection_distance: Param.new( name: 'Minimum Detection Distance', grps_index: 9, description: '0 - 100% of range setting', default: 0, units: '%' ),
