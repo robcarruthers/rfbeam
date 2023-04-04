@@ -29,7 +29,7 @@ module RfBeam
       range: %w[Far Near],
       speed: %w[Low High]
     }.freeze
-    
+
     Param = Data.define(:name, :grps_index, :description, :default, :units, :values) do |_param|
       def initialize(name:, grps_index:, description: nil, default: nil, units: nil, values: [])
         super(name:, grps_index:, description:, default:, units:, values:)

@@ -14,7 +14,7 @@ module RfBeam
     desc 'list', 'List available radar modules'
     def list
       devices = RfBeam.connected
-      @logger.error 'No Radar modules found.' unless devices.count.positive?
+      @logger.warning 'No Radar modules found.' unless devices.count.positive?
 
       table = TTY::Table.new( header: ['id', 'Path', 'Version'])
 
@@ -32,7 +32,7 @@ module RfBeam
 
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
     def set_param(radar_id, param, value)
-      return logger.error("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
+      return logger.warning("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
 
       init_radar radar_id
       @radar.send("#{param}=", value.to_i)
@@ -40,23 +40,26 @@ module RfBeam
     end
 
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
+    option :stream, type: :boolean, aliases: '-s', desc: "Stream the data from the device"
     def ddat(radar_id)
       init_radar radar_id
-      spinner = TTY::Spinner.new("[:spinner] :title ", format: :bouncing_ball)
-
-      Thread.new { monitor_keypress }
+      
+      if options[:stream]
+        Thread.new { monitor_keypress }
+        spinner = TTY::Spinner.new("[:spinner] :title ", format: :bouncing_ball)
         loop do
           break if @stop_streaming
-          spinner.spin
-          data = @radar.ddat
-          spinner.update title: "Searching... ddat = #{data}"
-          if data[2] == 1
-            spinner.success @radar.tdat
-          end
+            spinner.spin
+            data = @radar.ddat
+            spinner.update title: "Searching... #{data}"
+            spinner.success @radar.tdat if data[2] == 1
         end
+        spinner.stop
+        puts "\nTask Quit."
+      else
+          puts "\n#{@radar.ddat}"
+      end
 
-      spinner.stop
-      puts "\nTask Quit."
     end
 
     desc 'pdat <radar_id>', 'Display Tracked Targets'
@@ -76,7 +79,7 @@ module RfBeam
         streamer.rfft
       else
         plot = rfft_plot(@radar)
-        puts plot.render
+        p plot.render
       end
     end
 
@@ -85,7 +88,7 @@ module RfBeam
     def init_radar(id)
       devices = RfBeam.connected
       @logger = TTY::Logger.new
-      return @logger.error 'No Radar modules found.' unless devices.count.positive?
+      return @logger.warning 'No Radar modules found.' unless devices.count.positive?
 
       @radar = RfBeam::K_ld7.new(devices[id.to_i])
     end

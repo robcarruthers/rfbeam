@@ -40,8 +40,16 @@ module RfBeam
 
     def ddat
       request_frame_data(:ddat)
-
-      read(14).unpack('a4LC6')
+      flags = %w[Low High]
+      array = read(14).unpack('a4LC6')
+      { label: array[0],
+      detection: DETECTION_FLAGS[:detection][array[2]],
+      micro_detection: DETECTION_FLAGS[:micro_detection][array[3]],
+      angle: DETECTION_FLAGS[:angle][array[4]],
+      direction: DETECTION_FLAGS[:direction][array[5]],
+      range: DETECTION_FLAGS[:range][array[6]],
+      speed: DETECTION_FLAGS[:speed][array[7]]
+    }
     end
     
     # Get the radar parameter structure
