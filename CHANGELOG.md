@@ -1,3 +1,8 @@
+## [0.4.0] - 2023-4-4
+
+- rough CLI implementation
+- Streaming rfft data, with plot output
+
 ## [0.3.5] - 2023-4-1
 
 - Updated Radar parameter accessors

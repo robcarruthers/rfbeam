@@ -9,6 +9,7 @@ require 'unicode_plot'
 
 module RfBeam
   class CLI < Thor
+  
     attr_accessor :radar, :logger
 
     desc 'list', 'List available radar modules'
@@ -75,7 +76,7 @@ module RfBeam
       init_radar(radar_id)
 
       if options[:stream]
-        streamer = RadarCLIStreamer.new(@radar)
+        streamer = RfBeam::KLD7::Streamer.new(@radar)
         streamer.rfft
       else
         plot = rfft_plot(@radar)
