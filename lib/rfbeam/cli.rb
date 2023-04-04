@@ -14,13 +14,15 @@ module RfBeam
 
     desc 'list', 'List available radar modules'
     def list
+      logger = TTY::Logger.new
       devices = RfBeam.connected
-      @logger.warning 'No Radar modules found.' unless devices.count.positive?
+      logger.warning 'No Radar modules found.' unless devices.count.positive?
 
       table = TTY::Table.new( header: ['id', 'Path', 'Version'])
 
       devices.each.with_index do |path, index|
-        table << ["R#{index}", path, @radar.sw_version]
+        init_radar(index)
+        table << ["#{index}", path, @radar.sw_version]
       end
       puts table.render(:ascii)
     end
@@ -31,13 +33,19 @@ module RfBeam
       puts @radar.config
     end
 
+    desc 'reset <radar_id>', 'Shows the parameter setting for the Radar module'
+    def reset(radar_id)
+      init_radar(radar_id)
+      @logger.success 'Radar reset to factory defaults' if @radar.reset
+    end
+
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
     def set_param(radar_id, param, value)
-      return logger.warning("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
-
       init_radar radar_id
+      return @logger.warn("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
+
       @radar.send("#{param}=", value.to_i)
-      logger.success "Set #{@radar.formatted_parameter(param.to_sym)}"
+      @logger.success "Set #{@radar.formatted_parameter(param.to_sym)}"
     end
 
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
@@ -52,10 +60,9 @@ module RfBeam
           break if @stop_streaming
             spinner.spin
             data = @radar.ddat
-            spinner.update title: "Searching... #{data}"
-            spinner.success @radar.tdat if data[2] == 1
+            spinner.update title: "Searching... #{data[:detection_str]}"
+            @logger.success "#{@radar.tdat}" if data[:detection]
         end
-        spinner.stop
         puts "\nTask Quit."
       else
           puts "\n#{@radar.ddat}"
@@ -71,13 +78,16 @@ module RfBeam
 
     desc "rfft <radar_id>", "Display the dopplar radar data as a plot"
     option :stream, type: :boolean, aliases: '-s', desc: "Stream the data from the device"
-    option :period, type: :numeric, aliases: '-p', default: 0.5, desc: "Update period (in seconds) for the streaming data"
+    option :raw, type: :boolean, aliases: '-r', desc: "Display raw data"
     def rfft(radar_id)
       init_radar(radar_id)
 
-      if options[:stream]
+      case
+      when options[:stream]
         streamer = RfBeam::KLD7::Streamer.new(@radar)
         streamer.rfft
+      when options[:raw]
+        print @radar.rfft
       else
         plot = rfft_plot(@radar)
         p plot.render
@@ -99,6 +109,7 @@ module RfBeam
     end
 
     def monitor_keypress
+      @stop_streaming = false
       loop do
         key = STDIN.getch
         if key.downcase == 'q'

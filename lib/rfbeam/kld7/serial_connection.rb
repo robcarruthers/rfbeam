@@ -75,7 +75,7 @@ module RfBeam
     end
 
     def check_response
-      sleep RESP_DELAY
+      sleep RESPONSE_DELAY
       resp = @serial_port.read(9).unpack('a4LC') # 4 ASCII bytes, UINT32, UINT8
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 

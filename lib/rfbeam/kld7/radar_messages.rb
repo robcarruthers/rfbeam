@@ -9,11 +9,21 @@ module RfBeam
 
     def rfft
       request_frame_data(:rfft)
+      sleep MEASUREMENT_DELAY
+      data = read(1032).unpack('a4LS256S256')
+      header, length = data.shift(2)
+      raise Error, "RFFT header response, header=#{header}" unless header == 'RFFT'
+      raise Error, "RFFT payload length, length=#{length}" unless length == 1024
 
-      resp = read(1032).unpack('a4LS256S256')
-      resp.shift 2
-      resp
+      data
     end
+
+    def reset
+      command = ['RFSE', 0]
+      write command.pack('a4L')
+      check_response
+    end
+    alias rfse reset
     
     def pdat(formatted: false)
       request_frame_data(:pdat)      
@@ -43,7 +53,8 @@ module RfBeam
       flags = %w[Low High]
       array = read(14).unpack('a4LC6')
       { label: array[0],
-      detection: DETECTION_FLAGS[:detection][array[2]],
+      detection: array[2] == 1,
+      detection_str: DETECTION_FLAGS[:detection][array[2]],
       micro_detection: DETECTION_FLAGS[:micro_detection][array[3]],
       angle: DETECTION_FLAGS[:angle][array[4]],
       direction: DETECTION_FLAGS[:direction][array[5]],
