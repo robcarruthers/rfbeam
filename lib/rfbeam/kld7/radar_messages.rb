@@ -24,9 +24,9 @@ module RfBeam
       check_response
     end
     alias rfse reset
-    
+
     def pdat(formatted: false)
-      request_frame_data(:pdat)      
+      request_frame_data(:pdat)
       resp = read(102).unpack('a4LSssSSssSSssSSssSSssSSssSSssSSssSSssSSssS')
       return resp unless formatted
 
@@ -42,27 +42,23 @@ module RfBeam
 
     def tdat
       request_frame_data(:tdat)
+      sleep MEASUREMENT_DELAY
 
-      sleep 0.1
       resp = read(16).unpack('a4LSssS')
-      return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] } unless resp[1].zero?
+      raise Error, "TDAT response = #{resp[0]}" unless resp[0] == 'TDAT'
+
+      resp
     end
 
     def ddat
       request_frame_data(:ddat)
-      flags = %w[Low High]
-      array = read(14).unpack('a4LC6')
-      { label: array[0],
-      detection: array[2] == 1,
-      detection_str: DETECTION_FLAGS[:detection][array[2]],
-      micro_detection: DETECTION_FLAGS[:micro_detection][array[3]],
-      angle: DETECTION_FLAGS[:angle][array[4]],
-      direction: DETECTION_FLAGS[:direction][array[5]],
-      range: DETECTION_FLAGS[:range][array[6]],
-      speed: DETECTION_FLAGS[:speed][array[7]]
-    }
+      sleep MEASUREMENT_DELAY
+
+      resp = read(14).unpack('a4LC6')
+      raise Error, "DDAT response = #{resp[0]}" unless resp[0] == 'DDAT'
+      resp
     end
-    
+
     # Get the radar parameter structure
     def grps
       command = ['GRPS', 0]
@@ -74,12 +70,10 @@ module RfBeam
     def config
       data = grps
       output = "\n"
-      RADAR_PARAMETERS.keys.each do |key|
-        output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index])
-      end
+      RADAR_PARAMETERS.keys.each { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
       output
     end
-    
+
     def formatted_parameter(param, value = nil)
       param = RADAR_PARAMETERS[param]
       if value.nil?
@@ -93,7 +87,7 @@ module RfBeam
     private
 
     def format_raw_target_data(array)
-        { dist: array.shift, speed: array.shift, angle: array.shift, mag: array.shift }
+      { dist: array.shift, speed: array.shift, angle: array.shift, mag: array.shift }
     end
 
     def request_frame_data(type)

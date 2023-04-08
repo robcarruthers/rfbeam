@@ -20,3 +20,7 @@ gem "unicode_plot", "~> 0.0.5"
 gem "tty-logger", "~> 0.6.0"
 
 gem "tty-screen", "~> 0.8.1"
+
+gem "tty-option", "~> 0.2.0"
+
+gem "tty-command", "~> 0.10.1"
