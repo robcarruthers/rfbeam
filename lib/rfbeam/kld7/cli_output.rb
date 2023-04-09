@@ -21,7 +21,7 @@ module RfBeam
       end
 
       def display(type, stream: false)
-        send("display_#{type}", stream)
+        stream ? send("stream_#{type}") : send("display_#{type}")
       end
 
       def plot(type, stream: false)
@@ -79,30 +79,30 @@ module RfBeam
         }
       end
 
-      def display_ddat(stream)
-        data = @radar.ddat
-        if stream
-          @streaming = true
-          Thread.new { monitor_keypress }
-          spinner = TTY::Spinner.new('[:spinner] :title ', format: :bouncing_ball)
-          logger = TTY::Logger.new
+      def display_ddat
+        puts RfBeam::Kld7::CliFormatter.new.ddat(@radar.ddat)
+      end
+
+      def stream_ddat
+        @streaming = true
+        Thread.new { monitor_keypress }
+        spinner = TTY::Spinner.new('[:spinner] :title ', format: :bouncing_ball)
+        spinner.run('Done!') do |sp|
           loop do
             break unless @streaming
 
-            spinner.spin
-            spinner.update title: "Detection: #{DETECTION_FLAGS[data[2]]}"
-            logger.success @radar.tdat.to_s unless data[2].zero?
+            data = @radar.ddat
+            sp.update title: "Detection: #{DETECTION_FLAGS[:detection][data[2]]}"
           end
-        else
-          puts RfBeam::Kld7::CliFormatter.new.ddat(data)
+          spinner.update title: ''
         end
       end
 
-      def display_tdat(stream)
+      def display_tdat
         puts RfBeam::Kld7::CliFormatter.new.tdat(@radar.tdat)
       end
 
-      def display_pdat(stream)
+      def display_pdat
         table = RfBeam::Kld7::CliFormatter.new.pdat_table(@radar.pdat)
         puts "\n   Detected Raw Targets"
         puts table.render(:unicode, alignment: :center)
