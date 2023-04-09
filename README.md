@@ -100,7 +100,7 @@ Returns a formatted String of all parameter settings. The only way to read param
 alias :rbfr
 
 ```ruby
-radar.radar.base_frequency = 1
+radar.base_frequency = 1
 ```
 
 ### Maximum Speed
