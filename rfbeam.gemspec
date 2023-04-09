@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = 'Currently only tested with K-LD7 on MacOS & Raspian (bullseye)'
   spec.homepage = 'https://gitlab.com/robcarruthers/rfbeam'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.2.1'
+  spec.required_ruby_version = '>= 3.1.2'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 

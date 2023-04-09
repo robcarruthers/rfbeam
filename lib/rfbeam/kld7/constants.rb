@@ -23,8 +23,8 @@ module RfBeam
 
     # The angle, direction, range and speed flags are only valid if the detection flag is 1.
     DETECTION_FLAGS = {
-      detection: ['No', 'Yes'],
-      micro_detection: ['No', 'Yes'],
+      detection: %w[No Yes],
+      micro_detection: %w[No Yes],
       angle: %w[Left Right],
       direction: %w[Receding Approaching],
       range: %w[Far Near],
@@ -32,9 +32,9 @@ module RfBeam
     }.freeze
 
     Param =
-      Data.define(:name, :grps_index, :description, :default, :units, :values) do |_param|
+      Struct.new(:name, :grps_index, :description, :default, :units, :values) do
         def initialize(name:, grps_index:, description: nil, default: nil, units: nil, values: [])
-          super(name:, grps_index:, description:, default:, units:, values:)
+          super(name, grps_index, description, default, units, values)
         end
       end
 
