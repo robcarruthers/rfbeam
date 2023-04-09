@@ -38,7 +38,7 @@ module RfBeam
 
       r = radar(radar_id)
       r.send("#{param}=", value.to_i)
-      @logger.success "Set #{r.formatted_parameter(param.to_sym)}"
+      @logger.success r.formatted_parameter(param.to_sym)
     end
 
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'

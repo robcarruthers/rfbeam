@@ -28,6 +28,8 @@ module RfBeam
     def pdat(formatted: false)
       request_frame_data(:pdat)
       resp = read(102).unpack('a4LSssSSssSSssSSssSSssSSssSSssSSssSSssSSssS')
+      raise Error, "PDAT response = #{resp[0]}" unless resp[0] == 'PDAT'
+
       return resp unless formatted
 
       target_count = resp[1].to_i / 8
