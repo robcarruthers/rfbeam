@@ -1,3 +1,6 @@
+inherit_gem:
+  syntax_tree: config/rubocop.yml
+
 AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
@@ -5,6 +8,9 @@ AllCops:
 Layout/LineLength:
   Max: 120
   AutoCorrect: true
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
 
 Metrics/ModuleLength:
   Enabled: false

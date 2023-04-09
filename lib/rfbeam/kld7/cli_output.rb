@@ -13,9 +13,11 @@ module RfBeam
 
       def initialize(radar_id)
         devices = RfBeam.connected
-        return TTY::Logger.new.warning 'No Radar modules found.' unless devices.count.positive?
-
-        @radar = RfBeam::KLD7.new(devices[radar_id.to_i])
+        if devices.empty?
+          TTY::Logger.new.warn 'No Radar modules found.'
+        else
+          @radar = RfBeam::KLD7.new(devices[radar_id.to_i])
+        end
       end
 
       def display(type, stream: false)

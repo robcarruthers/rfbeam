@@ -384,8 +384,6 @@ module RfBeam
     def set_parameter(header, value, return_type = :uint32)
       return_type =
         case return_type
-        when :uint32
-          'L'
         when :int32
           'l'
         else

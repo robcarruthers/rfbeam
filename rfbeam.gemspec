@@ -36,10 +36,13 @@ Gem::Specification.new do |spec|
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_dependency 'activesupport', '~> 6.1.0'
-  # spec.add_dependency 'bindata', '~> 2.4.10'
   spec.add_dependency 'rubyserial', '~> 0.6.0'
-  # spec.add_dependency 'terminal-table', '~> 3.0.2'
   spec.add_dependency 'thor', '~> 1.2.1'
+  spec.add_dependency 'tty-logger', '~> 0.6.0'
+  spec.add_dependency 'tty-screen', '~> 0.8.1'
+  spec.add_dependency 'tty-spinner', '~> 0.9.3'
+  spec.add_dependency 'tty-table', '~> 0.12.0'
+  spec.add_dependency 'unicode_plot', '~> 0.0.5'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
