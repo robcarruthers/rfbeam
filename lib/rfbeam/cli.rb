@@ -16,7 +16,7 @@ module RfBeam
     def list
       logger = TTY::Logger.new
       devices = RfBeam.connected
-      logger.warning 'No Radar modules found.' unless devices.count.positive?
+      return logger.warn 'No Radar modules found.' if devices.empty?
 
       table = TTY::Table.new(header: %w[id Path Version])
 
