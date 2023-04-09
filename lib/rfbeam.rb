@@ -13,8 +13,8 @@ module RfBeam
   class Error < StandardError
   end
 
-  class K_ld7
-    include RfBeam::KLD7
+  class KLD7
+    include RfBeam::Kld7
   end
 
   def self.connected

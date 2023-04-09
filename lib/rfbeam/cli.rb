@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'thor'
 require 'rfbeam'
 require 'tty-table'
@@ -8,7 +10,7 @@ require 'unicode_plot'
 
 module RfBeam
   class CLI < Thor
-    attr_accessor :radar, :logger
+    attr_accessor :logger
 
     desc 'list', 'List available radar modules'
     def list
@@ -18,7 +20,7 @@ module RfBeam
 
       table = TTY::Table.new(header: %w[id Path Version])
 
-      devices.each.with_index { |path, index| table << ["#{index}", path, radar(index).sw_version] }
+      devices.each.with_index { |path, index| table << [index.to_s, path, radar(index).sw_version] }
       puts table.render(:ascii)
     end
 
@@ -44,13 +46,13 @@ module RfBeam
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
     option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
     def ddat(radar_id)
-      cli = RfBeam::KLD7::CliOutput.new(radar_id)
+      cli = RfBeam::Kld7::CliOutput.new(radar_id)
       cli.display(:ddat, stream: options[:stream])
     end
 
     desc 'pdat <radar_id>', 'Display Tracked Targets'
     def pdat(radar_id)
-      cli = RfBeam::KLD7::CliOutput.new(radar_id)
+      cli = RfBeam::Kld7::CliOutput.new(radar_id)
       cli.display(:pdat, stream: options[:stream])
     end
 
@@ -58,7 +60,7 @@ module RfBeam
     option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
     option :raw, type: :boolean, aliases: '-r', desc: 'Display raw data'
     def rfft(radar_id)
-      plotter = RfBeam::KLD7::CliOutput.new(radar_id)
+      plotter = RfBeam::Kld7::CliOutput.new(radar_id)
       if options[:raw]
         print radar(radar_id).rfft
       else
@@ -68,7 +70,7 @@ module RfBeam
 
     desc 'tdat <radar_id>', 'Display tracked target data'
     def tdat(radar_id)
-      cli = RfBeam::KLD7::CliOutput.new(radar_id)
+      cli = RfBeam::Kld7::CliOutput.new(radar_id)
       cli.display(:tdat, stream: options[:stream])
     end
 
@@ -79,7 +81,7 @@ module RfBeam
       @logger = TTY::Logger.new
       return @logger.warning 'No Radar modules found.' unless devices.count.positive?
 
-      RfBeam::K_ld7.new(devices[id.to_i])
+      RfBeam::KLD7.new(devices[id.to_i])
     end
   end
 end

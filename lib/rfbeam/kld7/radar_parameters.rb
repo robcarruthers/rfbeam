@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module RfBeam
-  module KLD7
+  module Kld7
     # -----------------
     # Software Version, 'K-LD7_APP-RFB-XXXX'
     # -----------------
@@ -386,8 +388,6 @@ module RfBeam
           'L'
         when :int32
           'l'
-        when :uint32
-          'S'
         else
           'L'
         end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module RfBeam
-  module KLD7
+  module Kld7
     require 'rubyserial'
     require 'timeout'
-    
+
     class Error < StandardError
     end
 
@@ -80,10 +82,10 @@ module RfBeam
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 
       response_key = resp[2]
-      return response_key.zero? # Everything OK
-
       error_string = RESP_CODES[response_key].nil? ? 'Response unknown' : RESP_CODES[response_key]
-      raise Error, "Radar response Error: #{error_string}"
+      raise Error, "Radar response Error: #{error_string}" unless response_key.zero?
+
+      response_key.zero? # Everything OK
     end
   end
 end

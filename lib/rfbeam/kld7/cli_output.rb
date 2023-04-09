@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'unicode_plot'
 require 'io/console'
 require 'stringio'
@@ -5,7 +7,7 @@ require 'tty-screen'
 require 'tty-logger'
 
 module RfBeam
-  module KLD7
+  module Kld7
     class CliOutput
       attr_reader :radar
 
@@ -13,7 +15,7 @@ module RfBeam
         devices = RfBeam.connected
         return TTY::Logger.new.warning 'No Radar modules found.' unless devices.count.positive?
 
-        @radar = RfBeam::K_ld7.new(devices[radar_id.to_i])
+        @radar = RfBeam::KLD7.new(devices[radar_id.to_i])
       end
 
       def display(type, stream: false)
@@ -39,10 +41,10 @@ module RfBeam
         $stdout.print "\e[0J"
         $stdout.flush
 
-        if @streaming
-          n = lines.count
-          $stdout.print "\e[#{n}F"
-        end
+        return unless @streaming
+
+        n = lines.count
+        $stdout.print "\e[#{n}F"
       end
 
       def stream_plot(type)
@@ -59,7 +61,7 @@ module RfBeam
 
       def monitor_keypress
         loop do
-          key = STDIN.getch
+          key = $stdin.getch
           if key.downcase == 'q'
             @streaming = false
             break
@@ -76,6 +78,7 @@ module RfBeam
       end
 
       def display_ddat(stream)
+        data = @radar.ddat
         if stream
           @streaming = true
           Thread.new { monitor_keypress }
@@ -83,28 +86,28 @@ module RfBeam
           logger = TTY::Logger.new
           loop do
             break unless @streaming
+
             spinner.spin
-            data = @radar.ddat
-            spinner.update title: "Searching... #{data[:detection_str]}"
-            logger.success "#{@radar.tdat}" if data[:detection]
+            spinner.update title: "Detection: #{DETECTION_FLAGS[data[2]]}"
+            logger.success @radar.tdat.to_s unless data[2].zero?
           end
         else
-          puts RfBeam::KLD7::CliFormatter.new.ddat(@radar.ddat)
+          puts RfBeam::Kld7::CliFormatter.new.ddat(data)
         end
       end
 
       def display_tdat(stream)
-        puts RfBeam::KLD7::CliFormatter.new.tdat(@radar.tdat)
+        puts RfBeam::Kld7::CliFormatter.new.tdat(@radar.tdat)
       end
 
       def display_pdat(stream)
-        table = RfBeam::KLD7::CliFormatter.new.pdat_table(@radar.pdat)
+        table = RfBeam::Kld7::CliFormatter.new.pdat_table(@radar.pdat)
         puts "\n   Detected Raw Targets"
         puts table.render(:unicode, alignment: :center)
       end
 
       def rfft_plot
-        width = TTY::Screen.width * 0.65
+        screen_width = TTY::Screen.width * 0.65
         data = rfft_plot_data(@radar.rfft)
         plot =
           UnicodePlot.lineplot(
@@ -113,7 +116,7 @@ module RfBeam
             name: 'IF1/2 Averaged',
             title: 'Raw FFT',
             height: 25,
-            width: width,
+            width: screen_width,
             xlabel: 'Speed (km/h)',
             ylabel: 'Signal (db)',
             xlim: [-128, 128],

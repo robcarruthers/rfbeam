@@ -27,7 +27,7 @@ The RfBeam class will return the path of any connected modules
 
 Simple pass the path and baude rate to initialise a new radar object
 
-    RfBeam::K_ld7.new("/dev/ttyUSB0", 115200) do |radar|
+    RfBeam::KLD7.new("/dev/ttyUSB0", 115200) do |radar|
         puts radar.config
     end
 
@@ -285,7 +285,7 @@ radar.micro_detection_sensitivty = 4
 
 ## CLI
 
-``` fish
+```fish
 ❯ bundle exec rfbeam list
 
 +--+------------+------------------+

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'tty-table'
 
 module RfBeam
-  module KLD7
+  module Kld7
     class CliFormatter
       def tdat(data)
         { dist: data[2], speed: data[3], angle: data[4], mag: data[5] }
@@ -11,7 +13,7 @@ module RfBeam
         table = TTY::Table.new header: ['index', 'dist (M)', 'speed (Km/h)', 'angle (°)', 'mag (db)']
         count = data[1] / 8
         data.shift(2)
-        count.times.with_index do |index|
+        count.times do |index|
           values = data.shift(4).map { |value| value.to_f / 100.0 }
           table << [index, values].flatten
         end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module RfBeam
-  module KLD7
+  module Kld7
     def detection?
       data = ddat
       (data[2] == 1)
@@ -33,7 +35,7 @@ module RfBeam
       return resp unless formatted
 
       target_count = resp[1].to_i / 8
-      return [] unless target_count > 0
+      return [] unless target_count.positive?
 
       resp.shift 2
       resp.compact
@@ -58,6 +60,7 @@ module RfBeam
 
       resp = read(14).unpack('a4LC6')
       raise Error, "DDAT response = #{resp[0]}" unless resp[0] == 'DDAT'
+
       resp
     end
 
@@ -71,8 +74,8 @@ module RfBeam
 
     def config
       data = grps
-      output = "\n"
-      RADAR_PARAMETERS.keys.each { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
+      output = []
+      RADAR_PARAMETERS.each_key { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
       output
     end
 
@@ -82,7 +85,7 @@ module RfBeam
         data = grps
         value = data[param.grps_index]
       end
-      param_str_value = param.values.empty? ? value.to_s : param.values[value]
+      param_str_value = param.str_values.empty? ? value.to_s : param.str_values[value]
       "#{param.name}: #{param_str_value}#{param.units}\n"
     end
 
