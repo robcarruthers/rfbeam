@@ -28,7 +28,7 @@ module RfBeam
       detection: %w[No Yes],
       micro_detection: %w[No Yes],
       angle: %w[Left Right],
-      direction: %w[Receding Approaching],
+      direction: ['Going away', 'Approaching'],
       range: %w[Far Near],
       speed: %w[Low High]
     }.freeze

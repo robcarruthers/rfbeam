@@ -1,11 +1,14 @@
 # Rfbeam
 
-![Gem](https://img.shields.io/gem/v/rfbeam?color=green&label=version)
 ![Ruby](https://img.shields.io/static/v1?message=Ruby&color=red&logo=Ruby&logoColor=FFFFFF&label=v3.1.2)
 ![Ruby](https://img.shields.io/gitlab/license/robcarruthers/rfbeam?color=orange)
 
-RfBeam is a simple, high-level interface for the RFBeam radar modules.
-The user can query process and raw detection data and set the radar parameters for the sensor.
+![Gem](https://img.shields.io/gem/v/rfbeam?color=green&label=version)
+![Build](https://img.shields.io/gitlab/pipeline-status/robcarruthers/rfbeam?branch=master)
+![Build](https://img.shields.io/gitlab/last-commit/robcarruthers/rfbeam)
+
+RfBeam is a simple, high-level interface and CLI for the RFBeam radar modules.
+The user can query/set radar parameters, raw detection data and stream data from the sensor.
 
 At this stage it only works on Linux and Mac with the K-LD7 module.
 
