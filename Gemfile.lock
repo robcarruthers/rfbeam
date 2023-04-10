@@ -9,7 +9,7 @@ GIT
 PATH
   remote: .
   specs:
-    rfbeam (0.4.8)
+    rfbeam (0.4.9)
       activesupport (~> 6.1.0)
       rubyserial (~> 0.6.0)
       thor (~> 1.2.1)

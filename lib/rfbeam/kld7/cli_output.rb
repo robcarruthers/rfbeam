@@ -80,7 +80,7 @@ module RfBeam
       end
 
       def display_ddat
-        puts RfBeam::Kld7::CliFormatter.new.ddat(@radar.ddat)
+        puts RfBeam::Kld7::CliFormatter.new.format(:ddat, @radar.ddat)
       end
 
       def stream_ddat
