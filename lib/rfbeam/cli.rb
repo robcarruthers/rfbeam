@@ -36,7 +36,7 @@ module RfBeam
 
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
     def set_param(radar_id, param, value)
-      return @logger.warn("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
+      return @logger.warn("Invalid param: '#{param}'") unless Kld7::RADAR_PARAMETERS.include?(param.to_sym)
 
       r = radar(radar_id)
       r.send("#{param}=", value.to_i)

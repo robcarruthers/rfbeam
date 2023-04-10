@@ -26,75 +26,90 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 The RfBeam class will return the path of any connected modules
 
-    RfBeam.connected
+```ruby
+RfBeam.connected
+=> ["/dev/ttyUSB0"]
+```
 
-Simple pass the path and baude rate to initialise a new radar object
+Simple pass the path and optional baude rate (default: 115200) to initialise a new radar object
 
-    RfBeam::KLD7.new("/dev/ttyUSB0", 115200) do |radar|
-        puts radar.config
-    end
+```ruby
+RfBeam::KLD7.new("/dev/ttyUSB0") do |radar|
+    puts radar.config
+end
+=>
+Software Version: K-LD7_APP-RFB-0103
+Base Frequency: Low
+Maximum Speed: 100km/h
+Maximum Range: 100m
+Threshold Offset: 30db
+Tracking Filter Type: Long Visibility
+Vibration Suppression: 16
+Minimum Detection Distance: 0%
+Maximum Detection Distance: 100%
+Minimum Detection Angle: -10°
+Maximum Detection Angle: 90°
+Minimum Detection Speed: 0%
+Maximum Detection Speed: 100%
+Detection Direction: Both
+Range Threshold: 10%
+Angle Threshold: 0°
+Speed Threshold: 50%
+Digital Output 1: Direction
+Digital Output 2: Angle
+Digital Output 3: Range
+Hold Time: 1s
+Micro Detection Trigger: Off
+Micro Detection Sensativity: 4
+```
 
-## RfBeam::K_ld7 API
+## RfBeam::KLD7 API
 
 ### detection?
 
 Returns true if the module has a valid detection.
 
-    radar.detection?
-    => true
+```ruby
+radar.detection?
+=> true
+```
 
 ### ddat
 
 Returns an array with the current detection values
 
-    radar.ddat
-    => ["DDAT", 6, 0, 0, 0, 0, 0, 0]
+```ruby
+radar.ddat
+=> ["DDAT", 6, 0, 0, 0, 0, 0, 0]
+```
 
 ### tdat
 
 Returns a hash with the current tracked object values
 
-    radar.tdat
-    => {:dist=>68, :speed=>196, :angle=>469, :mag=>6303}
+```ruby
+radar.tdat
+=> ["TDAT", 4, 68, 196, 469, 6303]
+```
 
 ### grps
 
 Returns the Parameter settings, values map to setting as detailed in the device datasheet.
 
-    radar.grps
-    => ["RPST", 42, "K-LD7_APP-RFB-0103", 1, 1, 1, 30, 0, 2, 0, 50, -90, 90, 0, 100, 2, 10, 0, 50, 0, 1, 2, 1, 0, 4]
+```ruby
+radar.grps
+=> ["RPST", 42, "K-LD7_APP-RFB-0103", 1, 1, 1, 30, 0, 2, 0, 50, -90, 90, 0, 100, 2, 10, 0, 50, 0, 1, 2, 1, 0, 4]
+```
 
 ### config
 
 Returns a formatted String of all parameter settings. The only way to read parameter settings is with config
 
-    radar.config
+```ruby
+radar.config
+```
 
-    Software Version: K-LD7_APP-RFB-0103
-    Base Frequency: Low
-    Maximum Speed: 100km/h
-    Maximum Range: 100m
-    Threshold Offset: 30db
-    Tracking Filter Type: Long Visibility
-    Vibration Suppression: 16
-    Minimum Detection Distance: 0%
-    Maximum Detection Distance: 100%
-    Minimum Detection Angle: -10°
-    Maximum Detection Angle: 90°
-    Minimum Detection Speed: 0%
-    Maximum Detection Speed: 100%
-    Detection Direction: Both
-    Range Threshold: 10%
-    Angle Threshold: 0°
-    Speed Threshold: 50%
-    Digital Output 1: Direction
-    Digital Output 2: Angle
-    Digital Output 3: Range
-    Hold Time: 1s
-    Micro Detection Trigger: Off
-    Micro Detection Sensativity: 4
-
-## Parameter API
+## Radar Parameters
 
 ### Base Frequency
 
