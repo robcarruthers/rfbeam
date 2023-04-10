@@ -9,7 +9,6 @@ require 'unicode_plot'
 
 module RfBeam
   class CLI < Thor
-  
     attr_accessor :radar, :logger
 
     desc 'list', 'List available radar modules'
@@ -18,7 +17,7 @@ module RfBeam
       devices = RfBeam.connected
       logger.warning 'No Radar modules found.' unless devices.count.positive?
 
-      table = TTY::Table.new( header: ['id', 'Path', 'Version'])
+      table = TTY::Table.new(header: %w[id Path Version])
 
       devices.each.with_index do |path, index|
         init_radar(index)
@@ -49,25 +48,24 @@ module RfBeam
     end
 
     desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
-    option :stream, type: :boolean, aliases: '-s', desc: "Stream the data from the device"
+    option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
     def ddat(radar_id)
       init_radar radar_id
-      
+
       if options[:stream]
         Thread.new { monitor_keypress }
-        spinner = TTY::Spinner.new("[:spinner] :title ", format: :bouncing_ball)
+        spinner = TTY::Spinner.new('[:spinner] :title ', format: :bouncing_ball)
         loop do
           break if @stop_streaming
-            spinner.spin
-            data = @radar.ddat
-            spinner.update title: "Searching... #{data[:detection_str]}"
-            @logger.success "#{@radar.tdat}" if data[:detection]
+          spinner.spin
+          data = @radar.ddat
+          spinner.update title: "Searching... #{data[:detection_str]}"
+          @logger.success "#{@radar.tdat}" if data[:detection]
         end
         puts "\nTask Quit."
       else
-          puts "\n#{@radar.ddat}"
+        puts "\n#{@radar.ddat}"
       end
-
     end
 
     desc 'pdat <radar_id>', 'Display Tracked Targets'
@@ -76,9 +74,9 @@ module RfBeam
       puts @radar.pdat
     end
 
-    desc "rfft <radar_id>", "Display the dopplar radar data as a plot"
-    option :stream, type: :boolean, aliases: '-s', desc: "Stream the data from the device"
-    option :raw, type: :boolean, aliases: '-r', desc: "Display raw data"
+    desc 'rfft <radar_id>', 'Display the dopplar radar data as a plot'
+    option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
+    option :raw, type: :boolean, aliases: '-r', desc: 'Display raw data'
     def rfft(radar_id)
       init_radar(radar_id)
 
@@ -124,17 +122,20 @@ module RfBeam
       speed_label = radar.formatted_parameter(:max_speed)
       xlim = [speed - speed * 2, speed]
       data = plot_data(radar.rfft)
-      plot = UnicodePlot.lineplot(
-        data[:x],
-        data[:series1],
-        name: 'IF1/2 Averaged',
-        title: 'Raw FFT',
-        height: 25,
-        width: 120,
-        xlabel: "Speed (km/h), #{speed_label}",
-        ylabel: 'Signal (db)', xlim: [-128, 128],
-        ylim: [0, 100])
-      UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: "Threshold")
+      plot =
+        UnicodePlot.lineplot(
+          data[:x],
+          data[:series1],
+          name: 'IF1/2 Averaged',
+          title: 'Raw FFT',
+          height: 25,
+          width: 120,
+          xlabel: "Speed (km/h), #{speed_label}",
+          ylabel: 'Signal (db)',
+          xlim: [-128, 128],
+          ylim: [0, 100]
+        )
+      UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: 'Threshold')
       plot
     end
   end

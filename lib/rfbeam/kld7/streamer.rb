@@ -1,8 +1,8 @@
 # rubocop:disable all
-require 'unicode_plot'
-require 'io/console'
+require "unicode_plot"
+require "io/console"
 require "stringio"
-require 'tty-screen'
+require "tty-screen"
 
 module RfBeam
   module KLD7
@@ -22,7 +22,7 @@ module RfBeam
           end
         end
       end
-      
+
       def rfft
         out = StringIO.new
         def out.tty?
@@ -51,22 +51,29 @@ module RfBeam
       private
 
       def plot_data(data)
-        { x: Array(-128...128), series1: data.shift(256).map { |value| value / 100 }, series2: data.shift(256).map { |value| value.to_i / 100 } }
+        {
+          x: Array(-128...128),
+          series1: data.shift(256).map { |value| value / 100 },
+          series2: data.shift(256).map { |value| value.to_i / 100 }
+        }
       end
 
       def rfft_plot(radar)
         width = TTY::Screen.width * 0.65
         data = plot_data(radar.rfft)
-        plot = UnicodePlot.lineplot(
-          data[:x],
-          data[:series1],
-          name: 'IF1/2 Averaged',
-          title: 'Raw FFT',
-          height: 25,
-          width: width,
-          xlabel: "Speed (km/h)",
-          ylabel: 'Signal (db)', xlim: [-128, 128],
-          ylim: [0, 100])
+        plot =
+          UnicodePlot.lineplot(
+            data[:x],
+            data[:series1],
+            name: "IF1/2 Averaged",
+            title: "Raw FFT",
+            height: 25,
+            width: width,
+            xlabel: "Speed (km/h)",
+            ylabel: "Signal (db)",
+            xlim: [-128, 128],
+            ylim: [0, 100]
+          )
         UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: "Threshold")
         plot
       end
