@@ -20,8 +20,9 @@ module RfBeam
         end
       end
 
-      def display(type, stream: false)
-        stream ? send("stream_#{type}") : send("display_#{type}")
+      def display(type, options)
+        display_method = options[:stream].nil? ? 'display' : 'stream'
+        send("#{display_method}_#{type}", options)
       end
 
       def plot(type, stream: false)
@@ -79,8 +80,12 @@ module RfBeam
         }
       end
 
-      def display_ddat
-        puts RfBeam::Kld7::CliFormatter.new.format(:ddat, @radar.ddat)
+      def display_ddat(options)
+        if options[:raw].nil?
+          puts RfBeam::Kld7::CliFormatter.format(:ddat, @radar.ddat)
+        else
+          puts @radar.ddat.inspect
+        end
       end
 
       def stream_ddat
@@ -98,11 +103,15 @@ module RfBeam
         end
       end
 
-      def display_tdat
-        puts RfBeam::Kld7::CliFormatter.new.tdat(@radar.tdat)
+      def display_tdat(options)
+        if options[:raw].nil?
+          puts RfBeam::Kld7::CliFormatter.format(:tdat, @radar.tdat)
+        else
+          puts @radar.tdat.inspect
+        end
       end
 
-      def display_pdat
+      def display_pdat(options)
         table = RfBeam::Kld7::CliFormatter.new.pdat_table(@radar.pdat)
         puts "\n   Detected Raw Targets"
         puts table.render(:unicode, alignment: :center)

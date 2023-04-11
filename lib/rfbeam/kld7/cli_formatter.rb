@@ -5,6 +5,10 @@ require 'tty-table'
 module RfBeam
   module Kld7
     class CliFormatter
+      def self.format(type, data)
+        new.format(type, data)
+      end
+
       def format(type, data)
         case type
         when :tdat
@@ -14,10 +18,6 @@ module RfBeam
         when :ddat
           ddat(data)
         end
-      end
-
-      def tdat(data)
-        { dist: data[2], speed: data[3], angle: data[4], mag: data[5] }
       end
 
       def pdat_table(data)
@@ -39,6 +39,17 @@ module RfBeam
           .map
           .with_index { |label, index| "#{label}: #{DETECTION_FLAGS[to_symbol(label)][data[index + 2]]}" }
           .join("\n")
+      end
+
+      def tdat(data)
+        return 'No target detected' unless data[1].positive?
+
+        [
+          "Distance: #{data[2].to_f / 100.0} m",
+          "Speed: #{data[3].to_f / 100.0} km/h",
+          "Angle: #{data[4].to_f / 100.0}°",
+          "Mag: #{data[5].to_f / 100.0} db"
+        ].join("\n")
       end
 
       def to_symbol(string)

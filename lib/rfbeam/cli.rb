@@ -24,17 +24,17 @@ module RfBeam
       puts table.render(:ascii)
     end
 
-    desc 'config <radar_id>', 'Shows the parameter setting for the Radar module'
+    desc 'config [RADAR_ID]', 'Shows the parameter setting for the Radar module'
     def config(radar_id)
       puts radar(radar_id).config
     end
 
-    desc 'reset <radar_id>', 'Shows the parameter setting for the Radar module'
+    desc 'reset [RADAR_ID]', 'Shows the parameter setting for the Radar module'
     def reset(radar_id)
       @logger.success 'Radar reset to factory defaults' if radar(radar_id).reset
     end
 
-    desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
+    desc 'set_param [RADAR_ID] [KEY] [VALUE]', 'Set radar parameters, see readme for KEYS'
     def set_param(radar_id, param, value)
       return @logger.warn("Invalid param: '#{param}'") unless Kld7::RADAR_PARAMETERS.include?(param.to_sym)
 
@@ -43,20 +43,28 @@ module RfBeam
       @logger.success r.formatted_parameter(param.to_sym)
     end
 
-    desc 'ddat <radar_id>', 'stream any valid detections, stop stream with q and enter'
-    option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
+    desc 'ddat [RADAR_ID]', 'stream any valid detections, stop stream with q and enter'
+    option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device, press q to stop'
+    option :raw, type: :boolean, aliases: '-r', desc: 'Display raw data'
     def ddat(radar_id)
       cli = RfBeam::Kld7::CliOutput.new(radar_id)
-      cli.display(:ddat, stream: options[:stream])
+      cli.display(:ddat, options)
     end
 
-    desc 'pdat <radar_id>', 'Display Tracked Targets'
+    desc 'tdat [RADAR_ID]', 'Display tracked target data'
+    option :raw, type: :boolean, aliases: '-r', desc: 'Display raw data'
+    def tdat(radar_id)
+      cli = RfBeam::Kld7::CliOutput.new(radar_id)
+      cli.display(:tdat, options)
+    end
+
+    desc 'pdat [RADAR_ID]', 'Display Tracked Targets'
     def pdat(radar_id)
       cli = RfBeam::Kld7::CliOutput.new(radar_id)
-      cli.display(:pdat, stream: options[:stream])
+      cli.display(:pdat, options)
     end
 
-    desc 'rfft <radar_id>', 'Display the dopplar radar data as a plot'
+    desc 'rfft [RADAR_ID]', 'Display the dopplar radar data as a plot'
     option :stream, type: :boolean, aliases: '-s', desc: 'Stream the data from the device'
     option :raw, type: :boolean, aliases: '-r', desc: 'Display raw data'
     def rfft(radar_id)
@@ -66,12 +74,6 @@ module RfBeam
       else
         plotter.plot(:rfft, stream: options[:stream])
       end
-    end
-
-    desc 'tdat <radar_id>', 'Display tracked target data'
-    def tdat(radar_id)
-      cli = RfBeam::Kld7::CliOutput.new(radar_id)
-      cli.display(:tdat, stream: options[:stream])
     end
 
     private

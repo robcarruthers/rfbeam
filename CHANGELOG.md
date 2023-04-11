@@ -1,3 +1,7 @@
+## [0.5.0] - 2023-11-4
+
+- Refactored CLI, refined help and options
+
 ## [0.4.2] - 2023-4-4
 
 - Changed Data.define to Struct to support ruby 3.1.2
