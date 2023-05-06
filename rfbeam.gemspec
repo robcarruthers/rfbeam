@@ -10,15 +10,15 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Ruby API and CLI for RFBeam doplar radar modules'
   spec.description = 'Currently only tested with K-LD7 on MacOS & Raspian (bullseye)'
-  spec.homepage = 'https://gitlab.com/robcarruthers/rfbeam'
+  spec.homepage = 'https://github.com/robcarruthers/rfbeam'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.2.1'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://gitlab.com/robcarruthers/rfbeam'
-  spec.metadata['changelog_uri'] = 'https://gitlab.com/robcarruthers/rfbeam/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/robcarruthers/rfbeam'
+  spec.metadata['changelog_uri'] = 'https://github.com/robcarruthers/rfbeam/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
