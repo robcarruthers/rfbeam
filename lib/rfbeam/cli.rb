@@ -1,6 +1,5 @@
 # rubocop:disable all
 require 'thor'
-require 'rfbeam'
 require 'tty-table'
 require 'tty-logger'
 require 'tty-spinner'
@@ -103,7 +102,11 @@ module RfBeam
     end
 
     def plot_data(data)
-      { x: Array(-128...128), series1: data.shift(256).map { |value| value / 100 }, series2: data.shift(256).map { |value| value.to_i / 100 } }
+      {
+        x: Array(-128...128),
+        series1: data.shift(256).map { |value| value / 100 },
+        series2: data.shift(256).map { |value| value.to_i / 100 }
+      }
     end
 
     def monitor_keypress
@@ -120,7 +123,6 @@ module RfBeam
     def rfft_plot(radar)
       speed = radar.max_speed
       speed_label = radar.formatted_parameter(:max_speed)
-      xlim = [speed - speed * 2, speed]
       data = plot_data(radar.rfft)
       plot =
         UnicodePlot.lineplot(

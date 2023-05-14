@@ -1,4 +1,4 @@
-require "csv"
+require 'csv'
 
 module RfBeam
   module KLD7
@@ -10,26 +10,24 @@ module RfBeam
     def rfft
       request_frame_data(:rfft)
       sleep MEASUREMENT_DELAY
-      data = read(1032).unpack("a4LS256S256")
+      data = read(1032).unpack('a4LS256S256')
       header, length = data.shift(2)
-      unless header == "RFFT"
-        raise Error, "RFFT header response, header=#{header}"
-      end
+      raise Error, "RFFT header response, header=#{header}" unless header == 'RFFT'
       raise Error, "RFFT payload length, length=#{length}" unless length == 1024
 
       data
     end
 
     def reset
-      command = ["RFSE", 0]
-      write command.pack("a4L")
+      command = ['RFSE', 0]
+      write command.pack('a4L')
       check_response
     end
     alias rfse reset
 
     def pdat(formatted: false)
       request_frame_data(:pdat)
-      resp = read(102).unpack("a4LSssSSssSSssSSssSSssSSssSSssSSssSSssSSssS")
+      resp = read(102).unpack('a4LSssSSssSSssSSssSSssSSssSSssSSssSSssSSssS')
       return resp unless formatted
 
       target_count = resp[1].to_i / 8
@@ -38,9 +36,7 @@ module RfBeam
       resp.shift 2
       resp.compact
       detected_raw_targets = []
-      target_count.times do
-        detected_raw_targets << format_raw_target_data(resp.shift(4))
-      end
+      target_count.times { detected_raw_targets << format_raw_target_data(resp.shift(4)) }
       detected_raw_targets
     end
 
@@ -48,16 +44,13 @@ module RfBeam
       request_frame_data(:tdat)
 
       sleep 0.1
-      resp = read(16).unpack("a4LSssS")
-      unless resp[1].zero?
-        return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] }
-      end
+      resp = read(16).unpack('a4LSssS')
+      return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] } unless resp[1].zero?
     end
 
     def ddat
       request_frame_data(:ddat)
-      flags = %w[Low High]
-      array = read(14).unpack("a4LC6")
+      array = read(14).unpack('a4LC6')
       {
         label: array[0],
         detection: array[2] == 1,
@@ -72,21 +65,16 @@ module RfBeam
 
     # Get the radar parameter structure
     def grps
-      command = ["GRPS", 0]
-      write command.pack("a4L")
+      command = ['GRPS', 0]
+      write command.pack('a4L')
       check_response
-      read(50).unpack("a4LA19C8c2C4cCCCCSCC")
+      read(50).unpack('a4LA19C8c2C4cCCCCSCC')
     end
 
     def config
       data = grps
       output = "\n"
-      RADAR_PARAMETERS.keys.each do |key|
-        output << formatted_parameter(
-          key,
-          data[RADAR_PARAMETERS[key].grps_index]
-        )
-      end
+      RADAR_PARAMETERS.keys.each { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
       output
     end
 
@@ -103,17 +91,12 @@ module RfBeam
     private
 
     def format_raw_target_data(array)
-      {
-        dist: array.shift,
-        speed: array.shift,
-        angle: array.shift,
-        mag: array.shift
-      }
+      { dist: array.shift, speed: array.shift, angle: array.shift, mag: array.shift }
     end
 
     def request_frame_data(type)
-      command = ["GNFD", 4, FRAME_DATA_TYPES[type]]
-      write command.pack("a4LL")
+      command = ['GNFD', 4, FRAME_DATA_TYPES[type]]
+      write command.pack('a4LL')
       check_response
     end
   end

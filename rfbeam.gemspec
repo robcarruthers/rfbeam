@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = 'Currently only tested with K-LD7 on MacOS & Raspian (bullseye)'
   spec.homepage = 'https://github.com/robcarruthers/rfbeam'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.1.2'
+  spec.required_ruby_version = '>= 3.2.1'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   # spec.add_dependency 'bindata', '~> 2.4.10'
   spec.add_dependency 'rubyserial', '~> 0.6.0'
   # spec.add_dependency 'terminal-table', '~> 3.0.2'
-  spec.add_development_dependency('bump', '~> 0.8.0')
+  spec.add_development_dependency('bump', '~> 0.10.0')
   spec.add_development_dependency('minitest', '~> 5.14')
   spec.add_development_dependency('minitest-reporters', '~> 1.4')
   spec.add_development_dependency('rake', '~> 13.0')

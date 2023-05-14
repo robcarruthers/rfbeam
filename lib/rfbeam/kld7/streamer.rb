@@ -1,8 +1,7 @@
-# rubocop:disable all
-require "unicode_plot"
-require "io/console"
-require "stringio"
-require "tty-screen"
+require 'unicode_plot'
+require 'io/console'
+require 'stringio'
+require 'tty-screen'
 
 module RfBeam
   module KLD7
@@ -16,7 +15,7 @@ module RfBeam
       def monitor_keypress
         loop do
           key = STDIN.getch
-          if key.downcase == "q"
+          if key.downcase == 'q'
             @stop_streaming = true
             break
           end
@@ -65,16 +64,16 @@ module RfBeam
           UnicodePlot.lineplot(
             data[:x],
             data[:series1],
-            name: "IF1/2 Averaged",
-            title: "Raw FFT",
+            name: 'IF1/2 Averaged',
+            title: 'Raw FFT',
             height: 25,
             width: width,
-            xlabel: "Speed (km/h)",
-            ylabel: "Signal (db)",
+            xlabel: 'Speed (km/h)',
+            ylabel: 'Signal (db)',
             xlim: [-128, 128],
             ylim: [0, 100]
           )
-        UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: "Threshold")
+        UnicodePlot.lineplot!(plot, data[:x], data[:series2], name: 'Threshold')
         plot
       end
     end

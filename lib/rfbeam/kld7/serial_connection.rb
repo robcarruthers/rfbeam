@@ -77,12 +77,13 @@ module RfBeam
     def check_response
       sleep RESPONSE_DELAY
       resp = @serial_port.read(9).unpack('a4LC')
+      puts "Response: #{resp}"
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 
-      resp_index = resp[2]
+      resp_code = resp[2]
       index_range = 1..RESP_CODES.size
 
-      raise Error, "Radar response Error: #{RESP_CODES[resp_index]}" unless index_range.include?(resp_index)
+      raise Error, "Radar response Error: #{RESP_CODES[resp_code]}" if index_range.include?(resp_code)
       true
     end
   end

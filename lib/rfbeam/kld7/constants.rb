@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module RfBeam
   module KLD7
     # All supported Serial port baude rates
