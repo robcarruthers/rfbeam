@@ -3,6 +3,12 @@
 - **(version)** v0.5.5 - ([53cb543](https://github.com/robcarruthers/rfbeam/commit/53cb54367e16f5cdc6044cc3e5a8ed62c6f1ce36)) - [@robcarruthers](https://github.com/robcarruthers)
 
 - - -
+## [v0.5.6](https://github.com/robcarruthers/rfbeam/compare/v0.5.5..v0.5.6) - 2023-05-14
+#### Miscellaneous Tasks
+- **(changelog)** Update cog config - ([e2bfa5d](https://github.com/robcarruthers/rfbeam/commit/e2bfa5d50c76aa2d0fa0f91ba21cfcc53590756c)) - [@robcarruthers](https://github.com/robcarruthers)
+
+- - -
+
 
 ## [v0.5.4](https://github.com/robcarruthers/rfbeam/compare/87bcfe5bac1f73a5a0ba4445266e828723ee2289..v0.5.4) - 2023-05-14
 #### Bug Fixes
