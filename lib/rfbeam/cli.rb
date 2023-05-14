@@ -15,7 +15,7 @@ module RfBeam
     def list
       logger = TTY::Logger.new
       devices = RfBeam.connected
-      logger.warning 'No Radar modules found.' unless devices.count.positive?
+      logger.info 'No Radar modules found.' unless devices.count.positive?
 
       table = TTY::Table.new(header: %w[id Path Version])
 
@@ -97,7 +97,7 @@ module RfBeam
     def init_radar(id)
       devices = RfBeam.connected
       @logger = TTY::Logger.new
-      return @logger.warning 'No Radar modules found.' unless devices.count.positive?
+      return @logger.warn 'No Radar modules found.' unless devices.count.positive?
 
       @radar = RfBeam::K_ld7.new(devices[id.to_i])
     end
