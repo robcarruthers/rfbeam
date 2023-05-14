@@ -1,41 +1,11 @@
-## [0.4.0] - 2023-4-4
+## Unreleased ([3a11143..e8ad2a8](https://github.com/robcarruthers/lxi_rb/compare/3a11143..e8ad2a8))
+#### Bug Fixes
+- **(cli)** Update logger output - ([f80b78e](https://github.com/robcarruthers/lxi_rb/commit/f80b78e289cc737a2ddae33df30414f3c1933beb)) - [@robcarruthers](https://github.com/robcarruthers)
+#### Tests
+- Setup minitest - ([e8ad2a8](https://github.com/robcarruthers/lxi_rb/commit/e8ad2a8233ca653bd21871a91b668388bc63416c)) - [@robcarruthers](https://github.com/robcarruthers)
 
-- rough CLI implementation
-- Streaming rfft data, with plot output
+- - -
 
-## [0.3.5] - 2023-4-1
+## [v0.4.0](https://github.com/robcarruthers/lxi_rb/compare/87bcfe5bac1f73a5a0ba4445266e828723ee2289..v0.4.0) - 2023-05-14
 
-- Updated Radar parameter accessors
-- Added parameter setter arg validation and errors
 
-## [0.3.4] - 2023-3-28
-
-- Added a formatted option to pdat
-
-## [0.3.2] - 2023-3-28
-
-- Added setters for Parameter settings
-
-## [0.3.1] - 2023-3-28
-
-- Added setter for Max Distance
-- Added setter for Max Speed
-- Added setter for Threshold offset
-
-## [0.2.2] - 2023-3-28
-
-- Refinements to ddat
-
-## [0.2.1] - 2023-3-28
-
-- Moved ddat to public method
-
-## [0.2.0] - 2023-1-23
-
-- KLD7 only
-- Device search and connection
-- Implement simple query interface for detection and target data
-
-## [0.1.0] - 2022-11-29
-
-- Initial release
