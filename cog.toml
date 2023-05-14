@@ -15,7 +15,7 @@ chore = { changelog_title = "Miscellaneous Tasks" }
 
 [changelog]
 path = "CHANGELOG.md"
-template = "remote"
+template = "/Users/rob/.config/cog/templates/custom.tera"
 remote = "github.com"
 repository = "lxi_rb"
 owner = "robcarruthers"
