@@ -1,0 +1,28 @@
+from_latest_tag = true
+ignore_merge_commits = false
+branch_whitelist = []
+pre_bump_hooks = ["bump set {{version}} --no-bundle --no-commit"]
+post_bump_hooks = []
+pre_package_bump_hooks = []
+post_package_bump_hooks = []
+tag_prefix = "v"
+
+[commit_types]
+hotfix = { changelog_title = "Hotfixes" }
+release = { changelog_title = "Releases" }
+task = { changelog_title = "Miscellaneous Tasks" }
+chore = { changelog_title = "Miscellaneous Tasks" }
+
+[changelog]
+path = "CHANGELOG.md"
+template = "remote"
+remote = "github.com"
+repository = "rfbeam"
+owner = "robcarruthers"
+authors = [
+  { signature = "Rob Carruthers", username = "robcarruthers" }
+]
+
+[bump_profiles]
+
+[packages]
