@@ -2,7 +2,7 @@ module RfBeam
   module KLD7
     require 'rubyserial'
     require 'timeout'
-    
+
     class Error < StandardError
     end
 
@@ -70,20 +70,20 @@ module RfBeam
 
     def init_radar
       command = ['INIT', 4, 0]
-      @serial_port.write command.pack('a4LL') # 4 ASCII bytes, UINT32, UINT32
+      @serial_port.write command.pack('a4LL')
       check_response
     end
 
     def check_response
       sleep RESPONSE_DELAY
-      resp = @serial_port.read(9).unpack('a4LC') # 4 ASCII bytes, UINT32, UINT8
+      resp = @serial_port.read(9).unpack('a4LC')
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 
-      response_key = resp[2]
-      return response_key.zero? # Everything OK
+      resp_index = resp[2]
+      index_range = 1..RESP_CODES.size
 
-      error_string = RESP_CODES[response_key].nil? ? 'Response unknown' : RESP_CODES[response_key]
-      raise Error, "Radar response Error: #{error_string}"
+      raise Error, "Radar response Error: #{RESP_CODES[resp_index]}" unless index_range.include?(resp_index)
+      true
     end
   end
 end
