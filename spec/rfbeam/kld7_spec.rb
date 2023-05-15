@@ -17,6 +17,12 @@ describe RfBeam do
       end
     end
 
+    it 'returns nil when not connected' do
+      @radar.stub :connected?, false do
+        assert_nil @radar.read(10)
+      end
+    end
+
     it 'reads specified number of bytes when connected' do
       bytes_to_read = 10
       expected_data = '1234567890'
@@ -29,29 +35,24 @@ describe RfBeam do
       end
     end
 
-    # def test_that_radar_returns_nil_when_not_connected
-    #   bytes_to_read = 10
+    it 'reads data from serial port' do
+      expected_data = 'Some radar data'
+      @serial_port.expect :read, expected_data, [10]
 
-    #   @serial_port.expect :connected?, false
+      @radar.stub :connected?, true do
+        assert_equal expected_data, @radar.read(10)
+        @serial_port.verify
+      end
+    end
 
-    #   assert_nil @radar.read(bytes_to_read)
-    #   @serial_port.verify
-    # end
+    it 'writes data to serial port' do
+      data_to_write = 'Some radar data'
+      @serial_port.expect :write, nil, [data_to_write]
 
-    # def test_that_radar_reads_data_from_serial_port
-    #   expected_data = 'Some radar data'
-    #   @serial_port.expect :read, expected_data
-
-    #   assert_equal expected_data, @radar.read
-    #   @serial_port.verify
-    # end
-
-    # def test_that_radar_sends_data_to_serial_port
-    #   data_to_write = 'Some data to write'
-    #   @serial_port.expect :write, nil, [data_to_write]
-
-    #   @radar.write(data_to_write)
-    #   @serial_port.verify
-    # end
+      @radar.stub :connected?, true do
+        @radar.write(data_to_write)
+        @serial_port.verify
+      end
+    end
   end
 end
