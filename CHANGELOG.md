@@ -7,6 +7,17 @@
 - **(kld7)** Start adding tests - ([8b84680](https://github.com/robcarruthers/rfbeam/commit/8b846801bc65e55ad7092e0d9065287749ffb55b)) - [@robcarruthers](https://github.com/robcarruthers)
 
 - - -
+## [v0.5.8](https://github.com/robcarruthers/rfbeam/compare/v0.5.7..v0.5.8) - 2023-05-15
+#### Refactoring
+- **(rubocop)** Fix offences - ([9153d75](https://github.com/robcarruthers/rfbeam/commit/9153d75248fa4b83a1a89bdd67a7286ce7ea4749)) - [@robcarruthers](https://github.com/robcarruthers)
+- **(rubocop)** Fix errors - ([57359b8](https://github.com/robcarruthers/rfbeam/commit/57359b85c0f2262fc612b85856f7c90e5c5c6927)) - [@robcarruthers](https://github.com/robcarruthers)
+- Refine response code logic - ([e6a88c5](https://github.com/robcarruthers/rfbeam/commit/e6a88c54abe7ccd5bf4b5696a3ac8255417abfd2)) - [@robcarruthers](https://github.com/robcarruthers)
+#### Tests
+- **(kld7)** Add specs - ([96c8e93](https://github.com/robcarruthers/rfbeam/commit/96c8e93aae186e7ab14a4bad27efc50d11003c57)) - [@robcarruthers](https://github.com/robcarruthers)
+- **(kld7)** Start adding tests - ([8b84680](https://github.com/robcarruthers/rfbeam/commit/8b846801bc65e55ad7092e0d9065287749ffb55b)) - [@robcarruthers](https://github.com/robcarruthers)
+
+- - -
+
 
 ## [v0.5.7](https://github.com/robcarruthers/rfbeam/compare/v0.5.1..v0.5.7) - 2023-05-15
 #### Miscellaneous Tasks
