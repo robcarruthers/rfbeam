@@ -14,7 +14,6 @@ module RfBeam
       parity = :even
       stop_bits = 1
       open_serial_port(path, baude_rate, data_bits, parity, stop_bits)
-      init_radar if connected?
 
       yield self if block_given?
     end
@@ -40,6 +39,12 @@ module RfBeam
       sleep 0.1
     end
 
+    def init_radar
+      command = ['INIT', 4, 0]
+      @serial_port.write command.pack('a4LL')
+      check_response
+    end
+
     private
 
     def open_serial_port(path, baude_rate, data_bits, parity, stop_bits)
@@ -47,7 +52,7 @@ module RfBeam
     end
 
     def connected?
-      raise Error, 'ConnectionError: No open Serial device connections.' if @serial_port.nil?
+      raise Error, 'ConnectionError: No open Serial device connections.' if @serial_port.closed?
 
       true
     end
@@ -68,16 +73,9 @@ module RfBeam
       end
     end
 
-    def init_radar
-      command = ['INIT', 4, 0]
-      @serial_port.write command.pack('a4LL')
-      check_response
-    end
-
     def check_response
       sleep RESPONSE_DELAY
       resp = @serial_port.read(9).unpack('a4LC')
-      puts "Response: #{resp}"
       raise Error, 'No valid response from Serial Port' if resp[2].nil?
 
       resp_code = resp[2]

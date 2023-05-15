@@ -11,19 +11,20 @@ describe RfBeam do
       path = '/dev/ttyUSB0'
 
       @serial_port = Minitest::Mock.new
+
       Serial.stub :new, @serial_port do
         @radar = RfBeam::K_ld7.new(path)
       end
     end
 
-    def test_that_radar_reads_specified_number_of_bytes_when_connected
+    it 'reads specified number of bytes when connected' do
       bytes_to_read = 10
       expected_data = '1234567890'
 
-      @serial_port.stub connected?: true do
-        @serial_port.expect :read, expected_data, [bytes_to_read]
+      @serial_port.expect :read, expected_data, [bytes_to_read]
 
-        assert_equal expected_data, @radar.read(bytes_to_read)
+      @radar.stub :connected?, true do
+        expect(@radar.read(bytes_to_read)).must_equal expected_data
         @serial_port.verify
       end
     end
