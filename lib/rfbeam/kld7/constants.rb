@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+# rubocop:disable all
+
 module RfBeam
   module KLD7
     # All supported Serial port baude rates

@@ -13,7 +13,7 @@ describe RfBeam do
       @serial_port = Minitest::Mock.new
 
       Serial.stub :new, @serial_port do
-        @radar = RfBeam::K_ld7.new(path)
+        @radar = RfBeam::Kld7.new(path)
       end
     end
 

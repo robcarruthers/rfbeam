@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
+require 'rfbeam/cli'
+require 'rfbeam/kld7/constants'
 require 'rfbeam/kld7/detection_params'
-require 'rfbeam/kld7/operation_params'
 require 'rfbeam/kld7/module_params'
+require 'rfbeam/kld7/operation_params'
 require 'rfbeam/kld7/radar_messages'
 require 'rfbeam/kld7/serial_connection'
-require 'rfbeam/kld7/constants'
 require 'rfbeam/kld7/streamer'
 require 'rfbeam/version'
-require 'rfbeam/cli'
 
 module RfBeam
   class Error < StandardError
   end
 
-  class K_ld7
+  class Kld7
     include RfBeam::KLD7
   end
 

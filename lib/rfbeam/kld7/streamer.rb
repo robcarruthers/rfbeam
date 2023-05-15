@@ -1,7 +1,9 @@
-require 'unicode_plot'
+# frozen_string_literal: true
+
 require 'io/console'
 require 'stringio'
 require 'tty-screen'
+require 'unicode_plot'
 
 module RfBeam
   module KLD7
@@ -14,8 +16,8 @@ module RfBeam
 
       def monitor_keypress
         loop do
-          key = STDIN.getch
-          if key.downcase == 'q'
+          key = $stdin.getch
+          if key.casecmp('q').zero?
             @stop_streaming = true
             break
           end
@@ -53,7 +55,7 @@ module RfBeam
         {
           x: Array(-128...128),
           series1: data.shift(256).map { |value| value / 100 },
-          series2: data.shift(256).map { |value| value.to_i / 100 }
+          series2: data.shift(256).map { |value| Integer(value, 10) / 100 }
         }
       end
 
@@ -67,7 +69,7 @@ module RfBeam
             name: 'IF1/2 Averaged',
             title: 'Raw FFT',
             height: 25,
-            width: width,
+            width:,
             xlabel: 'Speed (km/h)',
             ylabel: 'Signal (db)',
             xlim: [-128, 128],

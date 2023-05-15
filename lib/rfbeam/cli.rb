@@ -1,4 +1,6 @@
+# frozen_string_literal: true
 # rubocop:disable all
+
 require 'thor'
 require 'tty-table'
 require 'tty-logger'
@@ -40,7 +42,7 @@ module RfBeam
     desc 'set_param <radar_id> <key> <value>', 'Set radar parameters, see readme for keys'
     def set_param(radar_id, param, value)
       init_radar radar_id
-      return @logger.warn("Invalid param: '#{param}'") unless RfBeam::K_ld7::RADAR_PARAMETERS.include?(param.to_sym)
+      return @logger.warn("Invalid param: '#{param}'") unless RfBeam::KLD7::RADAR_PARAMETERS.include?(param.to_sym)
 
       @radar.send("#{param}=", value.to_i)
       @logger.success "Set #{@radar.formatted_parameter(param.to_sym)}"

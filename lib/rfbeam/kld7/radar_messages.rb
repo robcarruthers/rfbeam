@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module RfBeam
@@ -30,8 +32,8 @@ module RfBeam
       resp = read(102).unpack('a4LSssSSssSSssSSssSSssSSssSSssSSssSSssSSssS')
       return resp unless formatted
 
-      target_count = resp[1].to_i / 8
-      return [] unless target_count > 0
+      target_count = Integer(resp[1], 10) / 8
+      return [] if target_count <= 0
 
       resp.shift 2
       resp.compact
@@ -45,7 +47,7 @@ module RfBeam
 
       sleep 0.1
       resp = read(16).unpack('a4LSssS')
-      return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] } unless resp[1].zero?
+      return { dist: resp[2], speed: resp[3], angle: resp[4], mag: resp[5] } if resp[1].nonzero?
     end
 
     def ddat
@@ -74,7 +76,7 @@ module RfBeam
     def config
       data = grps
       output = "\n"
-      RADAR_PARAMETERS.keys.each { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
+      RADAR_PARAMETERS.each_key { |key| output << formatted_parameter(key, data[RADAR_PARAMETERS[key].grps_index]) }
       output
     end
 

@@ -27,11 +27,11 @@ The RfBeam class will return the path of any connected modules
 
 Simple pass the path and baude rate to initialise a new radar object
 
-    RfBeam::K_ld7.new("/dev/ttyUSB0", 115200) do |radar|
+    RfBeam::Kld7.new("/dev/ttyUSB0", 115200) do |radar|
         puts radar.config
     end
 
-## RfBeam::K_ld7 API
+## RfBeam::Kld7 API
 
 ### detection?
 
@@ -67,12 +67,12 @@ Returns a formatted String of all parameter settings. The only way to read param
 
     radar.config
 
-    Software Version: K-LD7_APP-RFB-0103          
-    Base Frequency: Low                           
-    Maximum Speed: 100km/h                        
-    Maximum Range: 100m                           
-    Threshold Offset: 30db                        
-    Tracking Filter Type: Long Visibility         
+    Software Version: K-LD7_APP-RFB-0103
+    Base Frequency: Low
+    Maximum Speed: 100km/h
+    Maximum Range: 100m
+    Threshold Offset: 30db
+    Tracking Filter Type: Long Visibility
     Vibration Suppression: 16
     Minimum Detection Distance: 0%
     Maximum Detection Distance: 100%
